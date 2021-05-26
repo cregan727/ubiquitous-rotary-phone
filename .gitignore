@@ -1,0 +1,4 @@
+*.fastq.gz
+.nextflow*
+slurm*.out
+work/
