@@ -3,6 +3,10 @@
 params.reads = '/scratch/cmr736/ubiquitous-rotary-phone/fastqs/*_R{1,2}.fastq.gz'
 params.path1 = '/scratch/cmr736/ubiquitous-rotary-phone/'
 params.reference = '/scratch/cmr736/references/refdata-gex-GRCh38-2020-A/star'
+
+percents = Channel.from(['1','.75', '.5', '.25', '.125', '.0625'])
+
+
 Channel
     .fromFilePairs( params.reads )
     .ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
@@ -48,6 +52,7 @@ STAR --genomeDir /scratch/cmr736/references/star_human/ \
 --limitBAMsortRAM 20000000000 \
 --readFilesCommand zcat \
 --outSAMtype BAM SortedByCoordinate \
+--outSAMattributes NH HI nM AS CR UR CB UB GX GN sS sQ sM \
 --soloType Droplet \
 --soloCBlen 6 \
 --soloUMIstart 7 \
@@ -62,19 +67,41 @@ samtools index Aligned.sortedByCoord.out.bam
 
 }
 
-process {
+process downsample {
 tag "Downsample"
 
 input:
 file "Aligned.sortedByCoord.out.bam" from bamfile_ch
+val percent from percents
+
 output:
+file "ds_${percent}_output.bam" into ds_bam_ch
+file "ds_${percent}_output.bam.bai" into ds_bamind_ch
+file "ds_${percent}_counts.tsv.gz" into ds_count_ch
 
 script:
+
 """
-module load picard/2.23.8 
+module load picard/2.23.8
+ 
+java -jar /share/apps/picard/2.23.8/picard.jar DownsampleSam \
+I= Aligned.sortedByCoord.out.bam \
+O=ds_${percent}_output.bam \
+P=$percent
 
-java -jar /share/apps/picard/2.23.8/picard.jar 
+module load samtools/intel/1.12
+samtools index ds_${percent}_output.bam
 
+#  Use UMI tools to count
+umi_tools count --umi-tag=UB \
+--cell-tag=CB \
+--gene-tag=GX \
+--extract-umi-method=tag \
+--per-gene \
+--wide-format-cell-counts \
+--per-cell \
+-I ds_${percent}_output.bam \
+-S ds_${percent}_counts.tsv.gz
 
 """
 
