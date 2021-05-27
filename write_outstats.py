@@ -7,6 +7,12 @@ CBFiles = sys.argv[1]
 Countfiles = sys.argv[2]
 percents = sys.argv[3]
 
+CBFiles = CBFiles.replace('[','').replace(']','').split(",")
+Countfiles = Countfiles.replace('[','').replace(']','').split(",")
+percents = percents.replace('[','').replace(']','').split(",")
+
+print(CBFiles)
+
 inputbcs = '/scratch/cmr736/ubiquitous-rotary-phone/brbseq.wlist.txt'
 
 
@@ -30,8 +36,7 @@ funtion for the downsampled bam
 input barcode
     """
     UMIs = pd.read_csv(counts, delimiter='\t', index_col='gene')
-    #fill in an empty column for any barcodes that have no UMIs at this 
-read depth
+    #fill in an empty column for any barcodes that have no UMIs at this read depth
     for i in inputbcs['Barcode'].tolist():
         if i not in UMIs.columns:
             UMIs[i] = UMIs.shape[0] * [0]
@@ -59,8 +64,7 @@ read depth
     
 def outsatstats_all(percent, Reads_per_CB, counts, inputbcs):
     UMIs = pd.read_csv(counts, delimiter='\t', index_col='gene')
-    #fill in an empty column for any barcodes that have no UMIs at this 
-read depth
+    #fill in an empty column for any barcodes that have no UMIs at this read depth
     for i in inputbcs['Barcode'].tolist():
         if i not in UMIs.columns:
             UMIs[i] = UMIs.shape[0] * [0]
@@ -78,10 +82,12 @@ read depth
     reads['Genes'] = np.count_nonzero(UMIs, axis=0)
     reads['UMI'] = UMIs.sum(axis=0)
     return(reads)
+print(CBFiles)
+print(Countfiles)
 
 df = pd.DataFrame(index=inputbcs['Barcode'])
 for i in range(0,len(percents)):
-    df_temp = outsatstats_all(percents[i],CBFiles[i], Countfiles[i]  inputbcs)
+    df_temp = outsatstats_all(percents[i],CBFiles[i], Countfiles[i],  inputbcs)
     df_temp.columns = [percents[i]+" "+z for z in df_temp.columns]
     df = df.join(df_temp)
     print(i)
