@@ -4,7 +4,7 @@ params.reads = '/scratch/cmr736/ubiquitous-rotary-phone/fastqs/*_R{1,2}.fastq.gz
 params.path1 = '/scratch/cmr736/ubiquitous-rotary-phone/'
 params.reference = '/scratch/cmr736/references/refdata-gex-GRCh38-2020-A/star'
 
-percents = Channel.from(['1','.75', '.5', '.25', '.125', '.0625'])
+percents = Channel.fromList(['1','.75', '.5', '.25', '.125', '.0625'])
 
 
 Channel
@@ -36,7 +36,7 @@ tag "STARsolo"
 input:
     set pair_id, path(reads) from read_pairs_ch
 output:
-        set file("*Log.final.out"), file ('*.bam') into star_aligned
+    set file("*Log.final.out"), file ('*.bam') into star_aligned
     file "*.out" into alignment_logs
     file "*SJ.out.tab"
     file "*Log.out" into star_log
@@ -48,7 +48,7 @@ script:
 STAR --genomeDir /scratch/cmr736/references/star_human/ \
 --runThreadN 6 \
 --readFilesIn /scratch/cmr736/ubiquitous-rotary-phone/fastqs/BRBseq_v2_R2.fastq.gz  /scratch/cmr736/ubiquitous-rotary-phone/fastqs/BRBseq_v2_R1.fastq.gz \
---soloCBwhitelist None \
+--soloCBwhitelist /scratch/cmr736/ubiquitous-rotary-phone/brbseq.wlist.txt \
 --limitBAMsortRAM 20000000000 \
 --readFilesCommand zcat \
 --outSAMtype BAM SortedByCoordinate \
@@ -68,31 +68,40 @@ samtools index Aligned.sortedByCoord.out.bam
 }
 
 process downsample {
-tag "Downsample"
+tag "Downsample on $percent"
 
 input:
 file "Aligned.sortedByCoord.out.bam" from bamfile_ch
-val percent from percents
+each(percent) from percents
 
 output:
 file "ds_${percent}_output.bam" into ds_bam_ch
 file "ds_${percent}_output.bam.bai" into ds_bamind_ch
 file "ds_${percent}_counts.tsv.gz" into ds_count_ch
+file "ds_${percent}_Reads_per_CB.txt"
 
 script:
 
 """
+
 module load picard/2.23.8
- 
+
+if  [ $percent == 1 ] ; then
+
+cp Aligned.sortedByCoord.out.bam ds_${percent}_output.bam
+
+else 
 java -jar /share/apps/picard/2.23.8/picard.jar DownsampleSam \
 I= Aligned.sortedByCoord.out.bam \
 O=ds_${percent}_output.bam \
 P=$percent
 
+fi
+
 module load samtools/intel/1.12
 samtools index ds_${percent}_output.bam
 
-#  Use UMI tools to count
+##  Use UMI tools to count
 umi_tools count --umi-tag=UB \
 --cell-tag=CB \
 --gene-tag=GX \
@@ -102,6 +111,14 @@ umi_tools count --umi-tag=UB \
 --per-cell \
 -I ds_${percent}_output.bam \
 -S ds_${percent}_counts.tsv.gz
+
+
+samtools view ds_${percent}_output.bam | grep -o  CB:Z:...... > CBUMI.txt
+sort -o CBUMI.txt CBUMI.txt
+uniq -c CBUMI.txt > ds_${percent}_Reads_per_CB.txt
+rm CBUMI.txt
+
+echo "End of Script"
 
 """
 
