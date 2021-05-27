@@ -14,4 +14,4 @@
 module load nextflow/20.11.0-edge
 module load star/intel/2.7.6a 
 
-nextflow run Nextflow_script.nf
+nextflow run Nextflow_script.nf -resume

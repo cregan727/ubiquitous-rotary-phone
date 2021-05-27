@@ -78,7 +78,8 @@ output:
 file "ds_${percent}_output.bam" into ds_bam_ch
 file "ds_${percent}_output.bam.bai" into ds_bamind_ch
 file "ds_${percent}_counts.tsv.gz" into ds_count_ch
-file "ds_${percent}_Reads_per_CB.txt"
+file "ds_${percent}_Reads_per_CB.txt" into CBs_ch
+env ${percent} into percents2
 
 script:
 
@@ -122,4 +123,21 @@ echo "End of Script"
 
 """
 
+}
+
+process outsatstats {
+
+input: 
+val CB from CBs_ch
+val count from ds_count_ch
+val percent from percents2
+
+output:
+file "outstats.csv"
+
+script
+"""
+python write_outstats.py 
+
+"""
 }
