@@ -79,7 +79,7 @@ file "ds_${percent}_output.bam" into ds_bam_ch
 file "ds_${percent}_output.bam.bai" into ds_bamind_ch
 file "ds_${percent}_counts.tsv.gz" into ds_count_ch
 file "ds_${percent}_Reads_per_CB.txt" into CBs_ch
-env ${percent} into percents2
+env "${percent}" into percents2
 
 script:
 
@@ -135,7 +135,7 @@ val percent from percents2
 output:
 file "outstats.csv"
 
-script
+script:
 """
 python write_outstats.py 
 
