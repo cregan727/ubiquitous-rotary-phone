@@ -2,7 +2,8 @@
 
 params.reads = '/scratch/cmr736/ubiquitous-rotary-phone/fastqs/*_R{1,2}.fastq.gz'
 params.path1 = '/scratch/cmr736/ubiquitous-rotary-phone/'
-params.reference = '/scratch/cmr736/references/refdata-gex-GRCh38-2020-A/star'
+params.reference = '/scratch/cmr736/references/star_human/'
+
 
 Channel
 	.fromList(['1','.75', '.5', '.25', '.125', '.0625'])
@@ -37,10 +38,11 @@ process starsolo {
 tag "STARsolo"
 
 
-publishDir './data/'
+publishDir './data/', mode: 'copy', overwrite: false
 
 input:
     set pair_id, path(reads) from read_pairs_ch
+    file reference from params.reference
 output:
     
     set file("*Log.final.out"), file ('*.bam') into star_aligned
@@ -58,7 +60,7 @@ script:
     """
 STAR --genomeDir /scratch/cmr736/references/star_human/ \
 --runThreadN 6 \
---readFilesIn $gene $barcode  \
+--readFilesIn $barcode $gene  \
 --soloCBwhitelist /scratch/cmr736/ubiquitous-rotary-phone/brbseq.wlist.txt \
 --limitBAMsortRAM 20000000000 \
 --readFilesCommand zcat \
@@ -138,7 +140,7 @@ echo "End of Script"
 
 process outsatstats {
 
-publishDir './data/'
+publishDir './data/', mode: 'copy', overwrite: false
 
 input: 
 val CB from CBs_ch.collect()
@@ -146,9 +148,9 @@ val count from ds_count_ch.collect()
 val percent from percents2.collect()
 
 output:
-file "Barcoderank_plot.png" into brp_ch
-file "Genesat_plot.png" into genesat_ch
-file "UMIsat_plot.png" into umisat_ch
+file "Barcoderank_plot.png" into plots_ch
+file "Genesat_plot.png" into plots_ch
+file "UMIsat_plot.png" into plots_ch
 
 
 script:
