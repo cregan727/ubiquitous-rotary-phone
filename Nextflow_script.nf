@@ -35,9 +35,14 @@ process fastqc {
 
 process starsolo {
 tag "STARsolo"
+
+
+publishDir './data/'
+
 input:
     set pair_id, path(reads) from read_pairs_ch
 output:
+    
     set file("*Log.final.out"), file ('*.bam') into star_aligned
     file "*.out" into alignment_logs
     file "*SJ.out.tab"
@@ -46,10 +51,14 @@ output:
     file "Aligned.sortedByCoord.out.bam" into bamfile_ch
 
 script:
+
+    gene = reads[0]
+    barcode = reads[1]
+
     """
 STAR --genomeDir /scratch/cmr736/references/star_human/ \
 --runThreadN 6 \
---readFilesIn /scratch/cmr736/ubiquitous-rotary-phone/fastqs/BRBseq_v2_R2.fastq.gz  /scratch/cmr736/ubiquitous-rotary-phone/fastqs/BRBseq_v2_R1.fastq.gz \
+--readFilesIn $gene $barcode  \
 --soloCBwhitelist /scratch/cmr736/ubiquitous-rotary-phone/brbseq.wlist.txt \
 --limitBAMsortRAM 20000000000 \
 --readFilesCommand zcat \
@@ -129,13 +138,18 @@ echo "End of Script"
 
 process outsatstats {
 
+publishDir './data/'
+
 input: 
 val CB from CBs_ch.collect()
 val count from ds_count_ch.collect()
 val percent from percents2.collect()
 
 output:
-file "outstats.csv"
+file "Barcoderank_plot.png" into brp_ch
+file "Genesat_plot.png" into genesat_ch
+file "UMIsat_plot.png" into umisat_ch
+
 
 script:
 """

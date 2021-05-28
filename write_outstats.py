@@ -62,7 +62,7 @@ df_median = df.median(axis = 0)
 
 
 #write out
-df.to_csv("fullstats.csv")
+df.to_csv("outstats.csv")
 print('done writing stats')
 
 
@@ -113,7 +113,7 @@ plt.axvline(paramaters[1],color='black', linestyle='--', label='Half Saturation 
 plt.legend()
 plt.ylabel("Median Genes per Cell/Well")
 plt.xlabel("Median Reads per Cell/Well")
-plt.title("Median Gene's per Barcode")
+plt.title("Median Genes per Barcode")
 plt.savefig("Genesat_plot.png")
 plt.close()
 
