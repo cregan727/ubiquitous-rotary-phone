@@ -28,7 +28,6 @@ def outsatstats_all(percent, Reads_per_CB, counts, inputbcs):
             UMIs[i] = UMIs.shape[0] * [0]
     #remove barcodes not in the list
     UMIs = UMIs[inputbcs['Barcode']]
-    print(UMIs.columns)
     #make reads df
     reads = pd.read_csv(Reads_per_CB, delimiter= '\s', header=None)
     reads[1] = reads[1].str.split(':', expand=True)[2]
@@ -41,7 +40,6 @@ def outsatstats_all(percent, Reads_per_CB, counts, inputbcs):
             reads.loc[i] = 0
     reads = reads.reindex(inputbcs['Barcode'], copy=False)
     #count number of genes for each barcode and UMIs per barcode
-    print(np.count_nonzero(UMIs.iloc[:,14], axis=0))
     reads['Genes'] = np.count_nonzero(UMIs, axis=0)
     reads['UMI'] = UMIs.sum(axis=0)
     return(reads)
@@ -78,6 +76,7 @@ plt.xlabel("Barcodes")
 plt.ylim(1,10000000)
 plt.title("Barcode Rank Plot")
 plt.savefig("Barcoderank_plot.png")
+plt.close()
 
 #UMI halfsat
 
@@ -98,6 +97,7 @@ plt.ylabel("Median UMIs per Cell/Well")
 plt.xlabel("Median Reads per Cell/Well")
 plt.title("Median UMI's per Barcode")
 plt.savefig("UMIsat_plot.png")
+plt.close()
 
 #Gene halfsat
 
@@ -115,5 +115,6 @@ plt.ylabel("Median Genes per Cell/Well")
 plt.xlabel("Median Reads per Cell/Well")
 plt.title("Median Gene's per Barcode")
 plt.savefig("Genesat_plot.png")
+plt.close()
 
 print("Done with script")
