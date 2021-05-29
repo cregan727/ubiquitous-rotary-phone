@@ -140,7 +140,7 @@ echo "End of Script"
 
 process outsatstats {
 
-publishDir './data/', mode: 'copy', overwrite: false
+publishDir './data/', mode: 'copy', overwrite: true
 
 input: 
 val CB from CBs_ch.collect()
@@ -156,6 +156,24 @@ file "UMIsat_plot.png" into plots_ch
 script:
 """
 python /scratch/cmr736/ubiquitous-rotary-phone/write_outstats.py $CB $count $percent
+
+"""
+}
+
+process outsatstats {
+
+publishDir './data/', mode: 'copy', overwrite: true
+
+input: 
+val images from plots_ch.collect()
+val logs from alignment_logs.collect()
+
+output:
+file "summary.html" into html_outs_ch
+
+script:
+"""
+python /scratch/cmr736/ubiquitous-rotary-phone/write_html.py $logs $images
 
 """
 }
