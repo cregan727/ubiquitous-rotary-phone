@@ -96,7 +96,7 @@ plt.axhline(paramaters[0], color='black', linestyle='-', label='Max Median UMI C
 plt.axvline(paramaters[1],color='black', linestyle='--', label='Half Saturation Point: ' + str(round(paramaters[1])))
 plt.legend()
 plt.ylabel("Median UMIs per Cell/Well")
-plt.xlabel("Median Reads per Cell/Well")
+plt.xlabel("Mean Reads per Cell/Well")
 plt.title("Mean UMI's per Barcode")
 plt.savefig("UMIsat_plot.png")
 plt.close()
