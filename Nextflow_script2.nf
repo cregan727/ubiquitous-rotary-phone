@@ -1,9 +1,13 @@
 #!/usr/bin/env nextflow
 
-params.reads = '/scratch/cmr736/ubiquitous-rotary-phone/fastqs/*_R{1,2}.fastq.gz'
-params.path1 = '/scratch/cmr736/ubiquitous-rotary-phone/'
+params.reads = '/scratch/cmr736/ubiquitous-rotary-phone/fastqs/SRR10099498*_{1,2}.fastq.gz'
+params.bclist = '/scratch/cmr736/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt'
 params.reference = '/scratch/cmr736/references/star_human/'
 params.author = 'Claire Regan'
+params.stranded = 'Reverse'
+params.barcode_length = 8 
+params.UMI_length = 8
+
 
 Channel
 	.fromList(['1','.75', '.5', '.25', '.125', '.0625'])
@@ -28,7 +32,6 @@ process fastqc {
 
     script:
     """
-    module load fastqc/0.11.9
     mkdir fastqc_${sample_id}_logs
     fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads}
     """  
@@ -38,7 +41,7 @@ process starsolo {
 tag "STARsolo"
 
 
-publishDir './data/', mode: 'copy', overwrite: false
+publishDir './data2/', mode: 'copy', overwrite: false
 
 input:
     set pair_id, path(reads) from read_pairs_ch
@@ -54,24 +57,23 @@ output:
 
 script:
 
-    gene = reads[0]
-    barcode = reads[1]
+    gene = reads[1]
+    barcode = reads[0]
 
     """
 STAR --genomeDir /scratch/cmr736/references/star_human/ \
---runThreadN 6 \
+--runThreadN 8 \
 --readFilesIn $barcode $gene  \
---soloCBwhitelist /scratch/cmr736/ubiquitous-rotary-phone/brbseq.wlist.txt \
+--soloCBwhitelist /scratch/cmr736/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt \
 --limitBAMsortRAM 20000000000 \
 --readFilesCommand zcat \
 --outSAMtype BAM SortedByCoordinate \
 --outSAMattributes NH HI nM AS CR UR CB UB GX GN sS sQ sM \
+--soloStrand Reverse \
 --soloType Droplet \
---soloCBlen 6 \
---soloUMIstart 7 \
---soloUMIlen 14 
-
-module load samtools/intel/1.12
+--soloCBlen 8 \
+--soloUMIstart 9 \
+--soloUMIlen 8 
 
 samtools index Aligned.sortedByCoord.out.bam
     """
@@ -86,6 +88,7 @@ tag "Downsample on $percent"
 input:
 file "Aligned.sortedByCoord.out.bam" from bamfile_ch
 each(percent) from percents
+val bclength from params.barcode_length
 
 output:
 file "ds_${percent}_output.bam" into ds_bam_ch
@@ -97,7 +100,6 @@ script:
 
 """
 
-module load picard/2.23.8
 
 if  [ $percent == 1 ] ; then
 
@@ -126,7 +128,7 @@ umi_tools count --umi-tag=UB \
 -S ds_${percent}_counts.tsv.gz
 
 
-samtools view ds_${percent}_output.bam | grep -o  CB:Z:...... > CBUMI.txt
+samtools view ds_${percent}_output.bam | grep -oE  "CB:Z:.{${bclength}}" > CBUMI.txt
 sort -o CBUMI.txt CBUMI.txt
 uniq -c CBUMI.txt > ds_${percent}_Reads_per_CB.txt
 rm CBUMI.txt
@@ -140,12 +142,12 @@ echo "End of Script"
 
 process outsatstats {
 
-publishDir './data/', mode: 'copy', overwrite: true
+publishDir './data2/', mode: 'copy', overwrite: true
 
 input: 
 val CB from CBs_ch.collect()
 val count from ds_count_ch.collect()
-val percent from percents2.collect()
+val bclist from params.bclist
 
 output:
 file "*.png" into plots_ch
@@ -153,14 +155,14 @@ file "*.png" into plots_ch
 
 script:
 """
-python /scratch/cmr736/ubiquitous-rotary-phone/write_outstats.py $CB $count $percent
+python /scratch/cmr736/ubiquitous-rotary-phone/write_outstats.py $CB $count $bclist
 
 """
 }
 
 process html {
 
-publishDir './data/', mode: 'copy', overwrite: true
+publishDir './data2/', mode: 'copy', overwrite: true
 
 input: 
 val images from plots_ch.collect()

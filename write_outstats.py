@@ -15,8 +15,9 @@ CBFiles = [x.replace("[","") for x in CBFiles]
 Countfiles = system_input[1].split(",")
 Countfiles = [x.replace("[","") for x in Countfiles]
 percents = [re.search("ds_.*_", x).group(0).replace("ds_","").replace("_","") for x in  Countfiles]
+inputbcs = system_input[2].replace(",","").replace(" ","")
+print(inputbcs)
 
-inputbcs = '/scratch/cmr736/ubiquitous-rotary-phone/brbseq.wlist.txt'
 inputbcs = pd.read_csv(inputbcs, header=None)
 inputbcs.columns = ['Barcode']
 
@@ -84,10 +85,11 @@ def model(x, vm, km):
     return (vm * x / (x + km))
 paramaters, covar = scipy.optimize.curve_fit(model, 
                                              df_means.filter(regex='Reads').tolist(), 
-                                             df_median.filter(regex='UMI').tolist())
+                                             df_median.filter(regex='UMI').tolist(),
+					     p0=[1000,1000])
 
 plt.scatter(df_means.filter(regex='Reads'),df_median.filter(regex='UMI'))
-x_coords = range(0, int(paramaters[1]*1.5) , int(paramaters[1]*.1))
+x_coords = range(0, int(max(paramaters[1]*1.5,max(df_means.filter(regex='Reads')))) , int(paramaters[1]*.1))
 y_coords = [model(x, paramaters[0], paramaters[1]) for x in x_coords]
 plt.plot(x_coords, y_coords)
 plt.axhline(paramaters[0], color='black', linestyle='-', label='Max Median UMI Count: ' + str(round(paramaters[0])))
@@ -103,9 +105,11 @@ plt.close()
 
 paramaters, covar = scipy.optimize.curve_fit(model, 
                                              df_means.filter(regex='Reads').tolist(), 
-                                             df_median.filter(regex='Gene').tolist())
+                                             df_median.filter(regex='Gene').tolist(),
+                                             p0=[1000,1000])
+print(paramaters)
 plt.scatter(df_means.filter(regex='Reads'),df_median.filter(regex='Gene'))
-x_coords = range(0, int(paramaters[1]*1.5) , int(paramaters[1]*.1))
+x_coords = range(0, int(max(paramaters[1]*1.5,max(df_means.filter(regex='Reads')))) , int(paramaters[1]*.1))
 y_coords = [model(x, paramaters[0], paramaters[1]) for x in x_coords]
 plt.plot(x_coords, y_coords)
 plt.axhline(paramaters[0], color='black', linestyle='-', label='Max Median Gene Count: ' + str(round(paramaters[0])))

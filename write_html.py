@@ -10,15 +10,15 @@ system_input = str(sys.argv[1:]).replace("]", "']").replace("', '[", "'").replac
 logs_list = system_input[0].split(",")
 logs_list = [x.replace("[","") for x in logs_list]
 
-Log_final_out_path = [x for x in images_input if x.endswith('Log.final.out')][0]
-summary_csv_path = [x for x in images_input if x.endswith('Solo.out')][0]
+Log_final_out_path = [x for x in logs_list if x.endswith('Log.final.out')][0]
+summary_csv_path = [x for x in logs_list if x.endswith('Solo.out')][0]
 summary_csv_path = str(summary_csv_path) + "/Gene/Summary.csv"
 
 #images = ['/Users/cregan/Downloads/Barcoderank_plot.png', '/Users/cregan/Downloads/Genesat_plot.png', '/Users/cregan/Downloads/UMIsat_plot.png']
 images_input = system_input[1].split(",")
 images_input = [x.replace("[","") for x in images_input]
 #force order of images for downstream process:
-images =[]
+images = []
 for i in ['Barcoderank_plot.png', 'Genesat_plot.png', 'UMIsat_plot.png']:
      images.append([x for x in images_input if x.endswith(i)][0])
 
