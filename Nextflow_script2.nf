@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-params.reads = '/scratch/cmr736/ubiquitous-rotary-phone/fastqs/SRR10099498*_{1,2}.fastq.gz'
+params.reads = '/scratch/cmr736/ubiquitous-rotary-phone/fastqs/SRR10099491*_{1,2}.fastq.gz'
 params.bclist = '/scratch/cmr736/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt'
 params.reference = '/scratch/cmr736/references/star_human/'
 params.author = 'Claire Regan'
@@ -41,7 +41,7 @@ process starsolo {
 tag "STARsolo"
 
 
-publishDir './data2/', mode: 'copy', overwrite: false
+publishDir './dataB/', mode: 'copy', overwrite: false
 
 input:
     set pair_id, path(reads) from read_pairs_ch
@@ -142,7 +142,7 @@ echo "End of Script"
 
 process outsatstats {
 
-publishDir './data2/', mode: 'copy', overwrite: true
+publishDir './dataB/', mode: 'copy', overwrite: true
 
 input: 
 val CB from CBs_ch.collect()
@@ -162,7 +162,7 @@ python /scratch/cmr736/ubiquitous-rotary-phone/write_outstats.py $CB $count $bcl
 
 process html {
 
-publishDir './data2/', mode: 'copy', overwrite: true
+publishDir './dataB/', mode: 'copy', overwrite: true
 
 input: 
 val images from plots_ch.collect()
