@@ -11,6 +11,6 @@
 
 module load sra-tools/2.10.9 
 
-fasterq-dump SRR10099491
+fasterq-dump SRR10099487
 
-gzip SRR10099491*.fastq
+gzip SRR10099487*.fastq
