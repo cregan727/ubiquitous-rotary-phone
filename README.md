@@ -8,6 +8,7 @@ Project Goals:
 * Estimate library complexity
 * Output to fill in a template HTML
 
+Data from https://www.frontiersin.org/articles/10.3389/fimmu.2020.00216/full#h7
 
 Examples of the Barcode Rank plot generated for the T cell datasets:
 <img src="https://github.com/cregan727/ubiquitous-rotary-phone/blob/main/data2/Barcoderank_plot.png?raw=trues" >
