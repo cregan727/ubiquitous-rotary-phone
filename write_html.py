@@ -10,6 +10,7 @@ system_input = str(
     "]", "']").replace(
     "', '[", "'").replace(
     ",'", "'").replace(
+    " /", "/").replace(
     "'", "").split(']')
 
 logs_list = system_input[0].replace(" ", "").split(",")
@@ -25,7 +26,7 @@ images_input = [x.replace("[", "") for x in images_input]
 # force order of images for downstream process:
 images = []
 for i in ['Barcoderank_plot.png', 'Genesat_plot.png', 'UMIsat_plot.png']:
-    images.append([x for x in images_input if x.endswith(i)][0])
+    images.append([x.replace(" ", "") for x in images_input if x.endswith(i)][0])
 
 # load inputs as dfs
 Log_final_out = pd.read_csv(Log_final_out_path,
@@ -229,7 +230,7 @@ Template = """
 # File in the HTML
 
 Template = Template.replace("AUTHOR_NAME", Author)
-Template = Templage.replace("SAMPLE_NAME", Sample)
+Template = Template.replace("SAMPLE_NAME", Sample)
 Template = Template.replace("DATE_M_Y", DATE_M_Y)
 Template = Template.replace(
     "CELLNUMBER",
