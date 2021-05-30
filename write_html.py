@@ -173,7 +173,7 @@ print("Base64 enocoded plots")
 Template = """
 <!DOCTYPE html>
 <html>
-<header>
+<head>
 <style>
     .tablemainhead {
         color: #094D92;
@@ -186,7 +186,7 @@ Template = """
       width: 100%
     }
 </style>
-</header>
+</head>
 <body>
 <div style="background-color: Black; text-align:left; padding: 20px">
     <b style="color: White; font-size: 50px"> Plate Based Sequencing Results  </b>
