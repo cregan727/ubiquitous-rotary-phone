@@ -44,11 +44,6 @@ matplotlib.pyplot
 */
 
 
-// pubdir
-
-val pubdir from params.pubdir
-
-
 
 /* Making channel for the downsampling - if you'd like to change the percentages to which the output bamfile is downsampled
 the percentages list can be changed. If the percentage is set to 1, the file will be copied instead of downsampled. */
@@ -57,7 +52,6 @@ Channel
 	.fromList(['1','.75', '.5', '.25', '.125', '.0625'])
 	.set {percents}
 
-pubdir = value(params.pubdir)
 
 // Modification below this line should not be necessary for typical pipeline use
 
@@ -76,7 +70,7 @@ Channel
 process fastqc {
     tag "FASTQC on $sample_id"
     
-    publishDir ${pubdir}, mode: 'copy', overwrite: True
+    publishDir ${params.pubdir}, mode: 'copy', overwrite: True
 
     input:
     set sample_id, file(reads) from read_pairs2_ch
@@ -98,7 +92,7 @@ process fastqc {
 process starsolo {
 	tag "STARsolo"
 
-	publishDir ${pubdir}, mode: 'copy', overwrite: True
+	publishDir ${params.pubdir}, mode: 'copy', overwrite: True
 
 	input:
     set pair_id, path(reads) from read_pairs_ch
@@ -215,7 +209,7 @@ based on number of genes and number of UMIs */
 
 process outsatstats {
 
-	publishDir ${pubdir}, mode: 'copy', overwrite: True
+	publishDir ${params.pubdir}, mode: 'copy', overwrite: True
 
 	input: 
 	val CB from CBs_ch.collect()
@@ -239,7 +233,7 @@ It also includes a barcode rank plot, and the two saturation plots generated ear
 
 process html {
 
-	publishDir ${pubdir}, mode: 'copy', overwrite: True
+	publishDir ${params.pubdir}, mode: 'copy', overwrite: True
 
 	input: 
 	val images from plots_ch.collect()
