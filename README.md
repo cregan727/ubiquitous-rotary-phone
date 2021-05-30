@@ -1,7 +1,19 @@
 # ubiquitous-rotary-phone
 ## Analysis of FB5P-seq data using Nextflow:
 Project Goals:
-* Analyze FB5P-seq data from SRR10099498 (https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP221379) 
-1. Align using STARsolo
-2. Estimate library complexity
-3. Output to fill in a template HTML
+* Analyze FB5P-seq data from T cells SRR10099498 (https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP221379) 
+* Analyze FB5P-seq data from B cells SRR10099491 (https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR10099491)
+* Use Nextflow
+* Align using STARsolo
+* Estimate library complexity
+* Output to fill in a template HTML
+
+
+Examples of the Barcode Rank plot generated for the T cell datasets:
+<img src="https://github.com/cregan727/ubiquitous-rotary-phone/blob/main/data2/Barcoderank_plot.png?raw=trues" >
+
+Examples of the UMI based sequencing saturation plots for T cell datasets:
+<img src="https://github.com/cregan727/ubiquitous-rotary-phone/blob/main/data2/UMIsat_plot.png?raw=trues" >
+
+More plots for both datasets can be viewed in the summary.html file for both datasets
+
