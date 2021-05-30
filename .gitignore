@@ -4,3 +4,5 @@ slurm*.out
 work/
 *.bam*
 *.fastq
+Nextflow_script.nf
+brbseq.wlist.txt
