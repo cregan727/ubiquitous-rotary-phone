@@ -12,6 +12,7 @@ Notes: Params can be specified with a config file, required modules must either 
 
 Params:
 
+params.sample = sample name
 params.reads = path to the fastqs
 params.bclist = path to barcodes file for your method
 params.reference = path to STAR reference genome
@@ -208,7 +209,7 @@ based on number of genes and number of UMIs */
 
 process outsatstats {
 
-publishDir "${params.pubdir}", mode: 'copy', overwrite: false
+publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	input: 
 	val CB from CBs_ch.collect()
@@ -232,18 +233,19 @@ It also includes a barcode rank plot, and the two saturation plots generated ear
 
 process html {
 
-publishDir "${params.pubdir}", mode: 'copy', overwrite: false
+publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	input: 
 	val images from plots_ch.collect()
 	val logs from alignment_logs.collect()
 	val author from params.author
+	val sample from params.sample
 
 	output:
 	file "summary.html" into html_outs_ch
 
 	script:
 	"""
-	python /scratch/cmr736/ubiquitous-rotary-phone/write_html.py $logs $images $author
+	python /scratch/cmr736/ubiquitous-rotary-phone/write_html.py $logs $images $author $sample
 	"""
 }
