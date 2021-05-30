@@ -10,10 +10,9 @@ system_input = str(
     "]", "']").replace(
     "', '[", "'").replace(
     ",'", "'").replace(
-    "'", "").replace(
-    " ", "").split(']')
+    "'", "").split(']')
 
-logs_list = system_input[0].split(",")
+logs_list = system_input[0].replace(" ", "").split(",")
 logs_list = [x.replace("[", "") for x in logs_list]
 
 Log_final_out_path = [x for x in logs_list if x.endswith('Log.final.out')][0]
@@ -37,6 +36,7 @@ Summary_csv = Summary_csv.astype(str)
 
 # Write HTML
 Author = system_input[2].replace(",", "")
+Sample = system_input[3].replace(",", "")
 # Get date
 x = date.today()
 DATE_M_Y = str(
@@ -190,7 +190,7 @@ Template = """
 <body>
 <div style="background-color: Black; text-align:left; padding: 20px">
     <b style="color: White; font-size: 50px"> Plate Based Sequencing Results  </b>
-    <p style="color: White;">AUTHOR_NAME -  DATE_M_Y</p>
+    <p style="color: White;">AUTHOR_NAME -  DATE_M_Y - SAMPLE_NAME</p>
     <HR WIDTH="100%" COLOR="#17BECF" SIZE="4">
 </div>
 
@@ -229,6 +229,7 @@ Template = """
 # File in the HTML
 
 Template = Template.replace("AUTHOR_NAME", Author)
+Template = Templage.replace("SAMPLE_NAME", Sample)
 Template = Template.replace("DATE_M_Y", DATE_M_Y)
 Template = Template.replace(
     "CELLNUMBER",
