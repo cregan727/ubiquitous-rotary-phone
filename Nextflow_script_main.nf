@@ -44,7 +44,6 @@ matplotlib.pyplot
 */
 
 
-
 /* Making channel for the downsampling - if you'd like to change the percentages to which the output bamfile is downsampled
 the percentages list can be changed. If the percentage is set to 1, the file will be copied instead of downsampled. */
 
@@ -70,7 +69,7 @@ Channel
 process fastqc {
     tag "FASTQC on $sample_id"
     
-    publishDir ${params.pubdir}, mode: 'copy', overwrite: True
+publishDir "${params.pubdir}", mode: 'copy', overwrite: false
 
     input:
     set sample_id, file(reads) from read_pairs2_ch
@@ -92,12 +91,12 @@ process fastqc {
 process starsolo {
 	tag "STARsolo"
 
-	publishDir ${params.pubdir}, mode: 'copy', overwrite: True
+publishDir "${params.pubdir}", mode: 'copy', overwrite: false
 
 	input:
     set pair_id, path(reads) from read_pairs_ch
-    file reference from params.reference
-	file bclist from params.bclist
+    val reference from params.reference
+	val bclist from params.bclist
 	val barcode_length from params.barcode_length
 	val UMI_length from params.UMI_length
 	val stranded from params.stranded
@@ -115,12 +114,12 @@ process starsolo {
 
     gene = reads[1]
     barcode = reads[0]
-
+    umi_start = barcode_length.toInteger() + 1
     """
 	STAR --genomeDir ${reference} \
 	--runThreadN 8 \
-	--readFilesIn $barcode $gene  \
-	--soloCBwhitelist ${bclist} \
+	--readFilesIn $barcode $gene \
+	--soloCBwhitelist $bclist \
 	--limitBAMsortRAM 20000000000 \
 	--readFilesCommand zcat \
 	--outSAMtype BAM SortedByCoordinate \
@@ -128,7 +127,7 @@ process starsolo {
 	--soloStrand ${stranded} \
 	--soloType Droplet \
 	--soloCBlen ${barcode_length} \
-	--soloUMIstart ${barcode_length}+1 \
+	--soloUMIstart ${umi_start} \
 	--soloUMIlen ${UMI_length} 
 
 	samtools index Aligned.sortedByCoord.out.bam
@@ -209,7 +208,7 @@ based on number of genes and number of UMIs */
 
 process outsatstats {
 
-	publishDir ${params.pubdir}, mode: 'copy', overwrite: True
+publishDir "${params.pubdir}", mode: 'copy', overwrite: false
 
 	input: 
 	val CB from CBs_ch.collect()
@@ -233,7 +232,7 @@ It also includes a barcode rank plot, and the two saturation plots generated ear
 
 process html {
 
-	publishDir ${params.pubdir}, mode: 'copy', overwrite: True
+publishDir "${params.pubdir}", mode: 'copy', overwrite: false
 
 	input: 
 	val images from plots_ch.collect()
