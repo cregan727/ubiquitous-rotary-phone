@@ -44,6 +44,11 @@ matplotlib.pyplot
 */
 
 
+// pubdir
+
+val pubdir from params.pubdir
+
+
 
 /* Making channel for the downsampling - if you'd like to change the percentages to which the output bamfile is downsampled
 the percentages list can be changed. If the percentage is set to 1, the file will be copied instead of downsampled. */
@@ -52,7 +57,7 @@ Channel
 	.fromList(['1','.75', '.5', '.25', '.125', '.0625'])
 	.set {percents}
 
-
+pubdir = value(params.pubdir)
 
 // Modification below this line should not be necessary for typical pipeline use
 
@@ -75,7 +80,6 @@ process fastqc {
 
     input:
     set sample_id, file(reads) from read_pairs2_ch
-    val pubdir from params.pubdir
 
     output:
     file("fastqc_${sample_id}_logs") into fastqc_ch
@@ -100,7 +104,6 @@ process starsolo {
     set pair_id, path(reads) from read_pairs_ch
     file reference from params.reference
 	file bclist from params.bclist
-	val pubdir from params.pubdir
 	val barcode_length from params.barcode_length
 	val UMI_length from params.UMI_length
 	val stranded from params.stranded
@@ -218,7 +221,6 @@ process outsatstats {
 	val CB from CBs_ch.collect()
 	val count from ds_count_ch.collect()
 	val bclist from params.bclist
-	val pubdir from params.pubdir
 
 	output:
 	file "*.png" into plots_ch
@@ -242,7 +244,6 @@ process html {
 	input: 
 	val images from plots_ch.collect()
 	val logs from alignment_logs.collect()
-	val pubdir from params.pubdir
 	val author from params.author
 
 	output:
