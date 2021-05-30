@@ -20,7 +20,7 @@ params.author = your name/ sample name/ anything you want to appear alongside th
 params.stranded = 'Forward' (most 3' methods), 'Reverse' (FB5P-seq), 'Unstranded' (smartseq methods)
 params.barcode_length = barcode length 
 params.UMI_length = umi length
-
+params.picard_path = path to the picard.jar. In some cases this is just picard.jar
 
 CLI tools:
 module load nextflow/20.11.0-edge
@@ -54,6 +54,7 @@ params.author = 'Claire Regan'
 params.stranded = 'Reverse'
 params.barcode_length = 8 
 params.UMI_length = 8
+params.picard_path = '/share/apps/picard/2.23.8/picard.jar'
 
 /* Making channel for the downsampling - if you'd like to change the percentages to which the output bamfile is downsampled
 the percentages list can be changed. If the percentage is set to 1, the file will be copied instead of downsampled. */
@@ -99,6 +100,9 @@ process fastqc {
     """  
 } 
 
+
+// Map using STARsolo
+
 process starsolo {
 	tag "STARsolo"
 
@@ -108,7 +112,7 @@ process starsolo {
     set pair_id, path(reads) from read_pairs_ch
     file reference from params.reference
 	file bclist from params.bclist
-    val pubdir from params.pubdir
+	val pubdir from params.pubdir
 	val barcode_length from params.barcode_length
 	val UMI_length from params.UMI_length
 	val stranded from params.stranded
@@ -154,6 +158,12 @@ process starsolo {
 
 }
 
+
+/* In order to assess the quality of the library beyond metrics like seqeuncing saturation alone,
+downsampling of the bamfile output from STAR can be done and then metrics calc'd. This step produces
+a downsampled counts file, and a file which has a count of the number of reads in the bam file for each
+barcode. */
+
 process downsample {
 	tag "Downsample on $percent"
 
@@ -161,6 +171,7 @@ process downsample {
 	file "Aligned.sortedByCoord.out.bam" from bamfile_ch
 	each(percent) from percents
 	val bclength from params.barcode_length
+	val picard_path from params.picard_path
 
 	output:
 	file "ds_${percent}_output.bam" into ds_bam_ch
@@ -172,20 +183,18 @@ process downsample {
 
 	"""
 
-
 	if  [ $percent == 1 ] ; then
 
 	cp Aligned.sortedByCoord.out.bam ds_${percent}_output.bam
 
 	else 
-	java -jar /share/apps/picard/2.23.8/picard.jar DownsampleSam \
+	java -jar ${picard_path} DownsampleSam \
 	I= Aligned.sortedByCoord.out.bam \
 	O=ds_${percent}_output.bam \
 	P=$percent
 
 	fi
 
-	module load samtools/intel/1.12
 	samtools index ds_${percent}_output.bam
 
 	##  Use UMI tools to count
@@ -211,6 +220,9 @@ process downsample {
 
 }
 
+/* Merge the results of the downsampling into one file of the counts of Reads, UMIs and Genes for each barcode at 
+each downsampling percentage and produce output plots that half calculated the half saturation point for the library
+based on number of genes and number of UMIs */
 
 process outsatstats {
 
@@ -231,6 +243,11 @@ process outsatstats {
 	python /scratch/cmr736/ubiquitous-rotary-phone/write_outstats.py $CB $count $bclist
 	"""
 	}
+
+
+/* Produce a Summary HTML for the run. This includes a header with the author and the date the file was generated
+Information about the mapping rates to the genome and transcriptome, and stats about the cells based on the STARsolo output.
+It also includes a barcode rank plot, and the two saturation plots generated earlier. */
 
 process html {
 
