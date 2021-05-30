@@ -50,7 +50,7 @@ the percentages list can be changed. If the percentage is set to 1, the file wil
 
 Channel
 	.fromList(['1','.75', '.5', '.25', '.125', '.0625'])
-	.into {percents}
+	.set {percents}
 
 
 
@@ -136,9 +136,7 @@ process starsolo {
 
 	samtools index Aligned.sortedByCoord.out.bam
 	
-	for i in $(ls ./Solo.out/Gene/*/*); do
-		gzip ${i}
-	done
+	gzip ./Solo.out/Gene/*/*
 	
     """
 
