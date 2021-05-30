@@ -44,17 +44,6 @@ matplotlib.pyplot
 */
 
 
-// Provide Inputs:
-
-params.reads = '/scratch/cmr736/ubiquitous-rotary-phone/fastqs/SRR10099491*_{1,2}.fastq.gz'
-params.bclist = '/scratch/cmr736/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt'
-params.reference = '/scratch/cmr736/references/star_human/'
-params.pubdir = './Data/'
-params.author = 'Claire Regan'
-params.stranded = 'Reverse'
-params.barcode_length = 8 
-params.UMI_length = 8
-params.picard_path = '/share/apps/picard/2.23.8/picard.jar'
 
 /* Making channel for the downsampling - if you'd like to change the percentages to which the output bamfile is downsampled
 the percentages list can be changed. If the percentage is set to 1, the file will be copied instead of downsampled. */
@@ -66,7 +55,6 @@ Channel
 
 
 // Modification below this line should not be necessary for typical pipeline use
-
 
 
 
