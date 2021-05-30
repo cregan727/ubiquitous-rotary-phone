@@ -29,7 +29,7 @@ Summary_csv = pd.read_csv(summary_csv_path, header=None, index_col=0)
 Summary_csv = Summary_csv.astype(str)
 
 #Write HTML
-#Author  -  TODO add this from Params
+Author = system_input[2].replace(",","")
 #Get date
 x =date.today()
 DATE_M_Y = str(x.strftime("%B") + " " + x.strftime("%d")+ ", " + x.strftime("%Y"))
@@ -197,7 +197,7 @@ Template = """
 
 #File in the HTML
 
-Template = Template.replace("AUTHOR_NAME", "Claire Regan")
+Template = Template.replace("AUTHOR_NAME", Author)
 Template = Template.replace("DATE_M_Y", DATE_M_Y)
 Template = Template.replace("CELLNUMBER", Summary_csv.loc["Estimated Number of Cells"][1].replace(".0", ""))
 Template = Template.replace("MEANREADSPC", f"""{int(float(Summary_csv.loc["Mean Reads per Cell"][1])):,d}""")
