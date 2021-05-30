@@ -11,10 +11,10 @@ Project Goals:
 Data from https://www.frontiersin.org/articles/10.3389/fimmu.2020.00216/full#h7
 
 Examples of the Barcode Rank plot generated for the T cell datasets:
-<img src="https://github.com/cregan727/ubiquitous-rotary-phone/blob/main/data2/Barcoderank_plot.png?raw=trues" >
+<img src="https://github.com/cregan727/ubiquitous-rotary-phone/blob/main/DataT1/Barcoderank_plot.png?raw=trues" >
 
 Examples of the UMI based sequencing saturation plots for T cell datasets:
-<img src="https://github.com/cregan727/ubiquitous-rotary-phone/blob/main/data2/UMIsat_plot.png?raw=trues" >
+<img src="https://github.com/cregan727/ubiquitous-rotary-phone/blob/main/DataT1/UMIsat_plot.png?raw=trues" >
 
 More plots for both datasets can be viewed in the summary.html file for both datasets
 
