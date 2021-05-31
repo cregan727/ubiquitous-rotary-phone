@@ -38,6 +38,7 @@ Summary_csv = Summary_csv.astype(str)
 # Write HTML
 Author = system_input[2].replace(",", "")
 Sample = system_input[3].replace(",", "")
+
 # Get date
 x = date.today()
 DATE_M_Y = str(
@@ -230,8 +231,8 @@ Template = """
 # File in the HTML
 
 Template = Template.replace("AUTHOR_NAME", Author)
-Template = Template.replace("SAMPLE_NAME", Sample)
 Template = Template.replace("DATE_M_Y", DATE_M_Y)
+Template = Template.replace("SAMPLE_NAME", Sample)
 Template = Template.replace(
     "CELLNUMBER",
     Summary_csv.loc["Estimated Number of Cells"][1].replace(".0", ""))

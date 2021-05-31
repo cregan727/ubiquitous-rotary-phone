@@ -246,6 +246,6 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	script:
 	"""
-	python /scratch/cmr736/ubiquitous-rotary-phone/write_html.py $logs $images $author $sample
+	python /scratch/cmr736/ubiquitous-rotary-phone/write_html.py $logs $images [$author] [$sample]
 	"""
 }
