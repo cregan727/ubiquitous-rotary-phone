@@ -2,12 +2,11 @@
 #
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
-#SBATCH --cpus-per-task=10
+#SBATCH --cpus-per-task=7
 #SBATCH --time=12:00:00
-#SBATCH --mem=160GB
+#SBATCH --mem=70GB
 #SBATCH --job-name=nextflowss
-#SBATCH --mail-type=FAIL,END
-#SBATCH --mail-user=cmr736@nyu.edu
+
 
 ## run nextflow
 

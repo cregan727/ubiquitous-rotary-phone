@@ -118,7 +118,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     umi_start = barcode_length.toInteger() + 1
     """
 	STAR --genomeDir ${reference} \
-	--runThreadN 8 \
+	--runThreadN 6 \
 	--readFilesIn $barcode $gene \
 	--soloCBwhitelist $bclist \
 	--limitBAMsortRAM 20000000000 \

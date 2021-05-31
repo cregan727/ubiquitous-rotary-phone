@@ -1,11 +1,11 @@
 STAR version=2.7.6a
 STAR compilation time,server,dir=Sun Dec 27 17:21:24 EST 2020 cs001.nyu.cluster:/home/wang/star-2.7.6a/STAR-2.7.6a/source
 ##### Command Line:
-STAR --genomeDir /scratch/cmr736/references/star_human/ --runThreadN 8 --readFilesIn SRR10099498_1.fastq.gz SRR10099498_2.fastq.gz --soloCBwhitelist /scratch/cmr736/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt --limitBAMsortRAM 20000000000 --readFilesCommand zcat --outSAMtype BAM SortedByCoordinate --outSAMattributes NH HI nM AS CR UR CB UB GX GN sS sQ sM --soloStrand Reverse --soloType Droplet --soloCBlen 8 --soloUMIstart 9 --soloUMIlen 8
+STAR --genomeDir /scratch/cmr736/references/star_human/ --runThreadN 6 --readFilesIn SRR10099498_1.fastq.gz SRR10099498_2.fastq.gz --soloCBwhitelist /scratch/cmr736/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt --limitBAMsortRAM 20000000000 --readFilesCommand zcat --outSAMtype BAM SortedByCoordinate --outSAMattributes NH HI nM AS CR UR CB UB GX GN sS sQ sM --soloStrand Reverse --soloType Droplet --soloCBlen 8 --soloUMIstart 9 --soloUMIlen 8
 ##### Initial USER parameters from Command Line:
 ###### All USER parameters from Command Line:
 genomeDir                     /scratch/cmr736/references/star_human/     ~RE-DEFINED
-runThreadN                    8     ~RE-DEFINED
+runThreadN                    6     ~RE-DEFINED
 readFilesIn                   SRR10099498_1.fastq.gz   SRR10099498_2.fastq.gz        ~RE-DEFINED
 soloCBwhitelist               /scratch/cmr736/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt        ~RE-DEFINED
 limitBAMsortRAM               20000000000     ~RE-DEFINED
@@ -20,7 +20,7 @@ soloUMIlen                    8     ~RE-DEFINED
 ##### Finished reading parameters from all sources
 
 ##### Final user re-defined parameters-----------------:
-runThreadN                        8
+runThreadN                        6
 genomeDir                         /scratch/cmr736/references/star_human/
 readFilesIn                       SRR10099498_1.fastq.gz   SRR10099498_2.fastq.gz   
 readFilesCommand                  zcat   
@@ -36,7 +36,7 @@ soloStrand                        Reverse
 
 -------------------------------
 ##### Final effective command line:
-STAR   --runThreadN 8   --genomeDir /scratch/cmr736/references/star_human/   --readFilesIn SRR10099498_1.fastq.gz   SRR10099498_2.fastq.gz      --readFilesCommand zcat      --limitBAMsortRAM 20000000000   --outSAMtype BAM   SortedByCoordinate      --outSAMattributes NH   HI   nM   AS   CR   UR   CB   UB   GX   GN   sS   sQ   sM      --soloType Droplet   --soloUMIstart 9   --soloCBlen 8   --soloUMIlen 8   --soloCBwhitelist /scratch/cmr736/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt      --soloStrand Reverse
+STAR   --runThreadN 6   --genomeDir /scratch/cmr736/references/star_human/   --readFilesIn SRR10099498_1.fastq.gz   SRR10099498_2.fastq.gz      --readFilesCommand zcat      --limitBAMsortRAM 20000000000   --outSAMtype BAM   SortedByCoordinate      --outSAMattributes NH   HI   nM   AS   CR   UR   CB   UB   GX   GN   sS   sQ   sM      --soloType Droplet   --soloUMIstart 9   --soloCBlen 8   --soloUMIlen 8   --soloCBwhitelist /scratch/cmr736/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt      --soloStrand Reverse
 ----------------------------------------
 
 Number of fastq files for each mate = 1
@@ -59,7 +59,7 @@ echo FILE 0
 zcat      "SRR10099498_2.fastq.gz"
 
 Number of CBs in the whitelist = 96
-May 30 16:31:54Finished reading, sorting and deduplicating CB whitelist sequences.
+May 31 10:28:34Finished reading, sorting and deduplicating CB whitelist sequences.
 Finished loading and checking parameters
 Reading genome generation parameters:
 ### STAR   --runMode genomeGenerate   --runThreadN 20   --genomeDir ./   --genomeFastaFiles /scratch/cmr736/references/refdata-gex-GRCh38-2020-A/fasta/genome.fa      --sjdbGTFfile /scratch/cmr736/references/refdata-gex-GRCh38-2020-A/genes/genes.gtf
@@ -278,7 +278,7 @@ Number of real (reference) chromosomes= 194
 193	KI270392.1	971	3137863680
 194	KI270394.1	970	3138125824
 --sjdbOverhang = 100 taken from the generated genome
-Started loading the genome: Sun May 30 16:31:54 2021
+Started loading the genome: Mon May 31 10:28:34 2021
 
 Genome: size given as a parameter = 3211173485
 SA: size given as a parameter = 24900747856
@@ -292,7 +292,7 @@ Loading Genome ... done! state: good=1 eof=0 fail=0 bad=0; loaded 3211173485 byt
 SA file size: 24900747856 bytes; state: good=1 eof=0 fail=0 bad=0
 Loading SA ... done! state: good=1 eof=0 fail=0 bad=0; loaded 24900747856 bytes
 Loading SAindex ... done: 1565873619 bytes
-Finished loading the genome: Sun May 30 16:32:20 2021
+Finished loading the genome: Mon May 31 10:29:00 2021
 
 Processing splice junctions database sjdbN=362117,   pGe.sjdbOverhang=100 
 alignIntronMax=alignMatesGapMax=0, the max intron size will be approximately determined by (2^winBinNbits)*winAnchorDistNbins=589824
@@ -306,81 +306,75 @@ Created thread # 2
 Created thread # 3
 Created thread # 4
 Created thread # 5
-Created thread # 6
-Created thread # 7
-BAM sorting: 219861 mapped reads
+BAM sorting: 220026 mapped reads
 BAM sorting bins genomic start loci:
-1	0	44778009
-2	0	145926722
-3	0	212051624
-4	1	69103953
-5	2	6482239
-6	2	62571851
-7	2	65499329
-8	2	90283183
-9	3	21642075
-10	3	68157990
-11	3	112406873
-12	4	79320560
-13	5	101964801
-14	6	44715690
-15	6	82372615
-16	7	89561019
-17	8	28722735
-18	8	64502925
-19	9	3277763
-20	10	15611879
-21	10	48965529
-22	11	47162532
-23	11	169604068
-24	11	231711935
-25	13	8209868
-26	13	8254220
-27	13	8393479
-28	13	8988367
-29	14	36348976
-30	15	42786045
-31	15	150546051
-32	16	90838781
-33	17	1815894
-34	17	111192776
-35	17	168616971
-36	18	31356793
-37	18	73518998
-38	18	159767002
-39	19	44801494
-40	20	12570865
-41	20	100948597
-42	21	73158776
-43	21	137241756
-44	23	12976267
-45	23	116108355
-46	40	126232
-47	40	171437
-48	51	109610
-Thread #7 end of input stream, nextChar=-1
-Completed: thread #6
-Completed: thread #7
-Completed: thread #0
+1	0	44777701
+2	0	145926530
+3	0	212051618
+4	1	69103916
+5	2	3828129
+6	2	62571626
+7	2	65499321
+8	2	82824778
+9	3	14949833
+10	3	57783250
+11	3	110436159
+12	4	52642644
+13	5	90404409
+14	6	44715646
+15	6	79889217
+16	7	84590106
+17	8	28720706
+18	8	61040803
+19	8	82253140
+20	10	15611789
+21	10	48616102
+22	11	38749696
+23	11	138279014
+24	11	231711359
+25	13	8209819
+26	13	8254168
+27	13	8393255
+28	13	8988327
+29	14	35838311
+30	15	40761669
+31	15	143012251
+32	16	83459777
+33	16	176328202
+34	17	108593892
+35	17	166382357
+36	18	31356765
+37	18	73518548
+38	18	158637169
+39	19	44799460
+40	20	11808830
+41	20	100704345
+42	21	71685795
+43	21	136863382
+44	23	3825106
+45	23	103609068
+46	40	126221
+47	40	171416
+48	51	109608
+Thread #4 end of input stream, nextChar=-1
+Completed: thread #4
 Completed: thread #2
 Completed: thread #1
+Completed: thread #3
+Completed: thread #0
 Joined thread # 1
 Joined thread # 2
-Completed: thread #5
-Completed: thread #4
-Completed: thread #3
 Joined thread # 3
 Joined thread # 4
+Completed: thread #5
 Joined thread # 5
-Joined thread # 6
-Joined thread # 7
-May 30 16:37:19 ..... started Solo counting
-May 30 16:37:19 ... Starting Solo post-map for Gene
-May 30 16:37:19 ... Allocated and initialized readInfo array, nReadsInput = 72579939
-May 30 16:37:19 ... Finished allocating arrays for Solo 0.41847 GB
-May 30 16:37:54 ... Finished reading reads from Solo files nCB=96, nReadPerCBmax=1199106, nMatch=37444037
-May 30 16:38:10 ... Finished collapsing UMIs
-May 30 16:38:10 ..... finished Solo counting
-May 30 16:38:10 ..... started sorting BAM
-Max memory needed for sorting = 624354420
+May 31 10:35:50 ..... started Solo counting
+May 31 10:35:50 ... Starting Solo post-map for Gene
+May 31 10:35:50 ... Allocated and initialized readInfo array, nReadsInput = 72579939
+May 31 10:35:50 ... Finished allocating arrays for Solo 0.41847 GB
+May 31 10:36:25 ... Finished reading reads from Solo files nCB=96, nReadPerCBmax=1199106, nMatch=37444037
+May 31 10:36:42 ... Finished collapsing UMIs
+May 31 10:36:42 ..... finished Solo counting
+May 31 10:36:42 ..... started sorting BAM
+Max memory needed for sorting = 593428566
 ALL DONE!
