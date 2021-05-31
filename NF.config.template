@@ -1,0 +1,23 @@
+/* Nextflow Config Files
+    ----------------------------------
+    PLATE BASED SCRNA-SEQ PARAMS
+    ----------------------------------
+ 
+ Includes the defaults for running B cell sample SRR10099491 of FB5P-seq
+ This inludes a UMI and Barcode length of 8 and stranded - Reverse
+ 
+ */
+ 
+ params {
+    sample = 'SRR10099491'
+    reads = '/path/to/ubiquitous-rotary-phone/fastqs/SRR10099491_{1,2}.fastq.gz'
+    bclist = '/path/to/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt'
+    reference = '/path/to/references/star_human/'
+    pubdir = './DataB1/'
+    author = 'Your Name'
+    stranded = 'Reverse'
+    barcode_length = 8 
+    UMI_length = 8
+    picard_path = '/path/to/picard/2.23.8/picard.jar'
+ 
+ }
