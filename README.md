@@ -16,5 +16,9 @@ Examples of the Barcode Rank plot generated for the T cell datasets:
 Examples of the UMI based sequencing saturation plots for T cell datasets:
 <img src="https://github.com/cregan727/ubiquitous-rotary-phone/blob/main/DataT1/UMIsat_plot.png?raw=trues" >
 
+Example of UMI counts across the plate:
+<img src="https://github.com/cregan727/ubiquitous-rotary-phone/blob/main/DataT1/Platelayout_umis.png?raw=trues" >
+
+
 More plots for both datasets can be viewed in the summary.html file for both datasets
 
