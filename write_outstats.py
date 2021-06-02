@@ -7,6 +7,7 @@ import re
 import operator
 import scipy.optimize
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 system_input = str(
     sys.argv[1:]).replace(
@@ -23,10 +24,14 @@ Countfiles = [x.replace("[", "") for x in Countfiles]
 percents = [re.search("ds_.*_", x).group(0).replace(
     "ds_", "").replace("_", "") for x in Countfiles]
 inputbcs = system_input[2].replace(",", "").replace(" ", "")
-print(inputbcs)
+called_cells = system_input[3].replace(",", "").replace(" ", "")
 
 inputbcs = pd.read_csv(inputbcs, header=None)
 inputbcs.columns = ['Barcode']
+
+called_cells = pd.read_csv(called_cells, header=None)
+called_cells.columns = ['Barcode']
+
 
 
 def outsatstats_all(percent, Reads_per_CB, counts, inputbcs):
@@ -71,8 +76,11 @@ for i in indices:
     df = df.join(df_temp)
     print(percents[i])
 
-df_means = df.mean(axis=0)
-df_median = df.median(axis=0)
+
+df_cells = df.loc[called_cells['Barcode]]
+    
+df_means = df_cells.mean(axis=0)
+df_median = df_cells.median(axis=0)
 
 # write out
 df.to_csv("outstats.csv")
@@ -80,9 +88,24 @@ print('done writing stats')
 
 
 # make barcode rank plot
-df_bcrankplot = df[["1 UMI"]]
-plt.scatter(range(1, 97), df_bcrankplot.sort_values(
-    '1 UMI', ascending=False)['1 UMI'])
+df_bcrankplot = df[['Barcode', "1 UMI"]]
+
+# add row and columns numbers before changing the row order                               
+rows = []
+for i in ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'):
+    rows.extend([i] * 12)
+cols = []
+for i in set(rows):
+    cols.extend(range(1, 13))
+                               
+df_bcrankplot['rows'] = rows
+df_bcrankplot['cols' = cols  
+df_bcrankplot['Cell'] = [x in called_cells[0].tolist() for x in df_bcrankplot['Barcode']]
+df_bcrankplot = df_bcrankplot.sort_values('1 UMI', ascending=False)
+df_bcrankplot['bcrank'] = range(1, len(df_bcrankplot)+1)
+plt.scatter(df_bcrp_cells['bcrank'], df_bcrp_cells['1 UMI'], label='Cells')
+plt.scatter(df_bcrp_not_cells['bcrank'], df_bcrp_not_cells['1 UMI'],
+            label='Not Cells', color='darkgrey')
 plt.xscale('log')
 plt.yscale('log')
 plt.ylabel("UMI counts")
@@ -92,6 +115,28 @@ plt.title("Barcode Rank Plot")
 plt.savefig("Barcoderank_plot.png")
 plt.close()
 
+                               
+# Plate Layout Cells Heatmap
+
+heatmap_UMIs = platelayout.pivot_table(index='rows', columns='cols', values='1 UMI')
+heatmap_Cell = platelayout.pivot_table(index='rows', columns='cols', values='Cell')
+
+plt.figure(figsize=[10,5])
+sns.heatmap(heatmap_Cell, cmap='Blues', linewidths=.1, linecolor='black', vmax = 1.5, cbar = False)
+plt.title("Plate Layout - Cells (Blue) and Non-Cells (White)")
+plt.savefig("Platelayout_cells.png")
+plt.close()
+              
+
+# Plate Layout UMIs heatmap
+              
+plt.figure(figsize=[12.5,5])
+sns.heatmap(heatmap_UMIs, cmap='viridis', linewidths=.1, linecolor='black')
+plt.title("Plate Layout - UMI counts per well")
+plt.savefig("Platelayout_cells.png")
+plt.close()
+              
+                       
 # UMI halfsat
 
 
