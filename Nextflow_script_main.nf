@@ -21,6 +21,7 @@ params.author = your name/ sample name/ anything you want to appear alongside th
 params.stranded = 'Forward' (most 3' methods), 'Reverse' (FB5P-seq), 'Unstranded' (smartseq methods)
 params.barcode_length = barcode length 
 params.UMI_length = umi length
+params.pythonscript_path = path to the python scripts
 params.picard_path = path to the picard.jar. In some cases this is just picard.jar
 
 CLI tools:
@@ -215,6 +216,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 	val CB from CBs_ch.collect()
 	val count from ds_count_ch.collect()
 	val bclist from params.bclist
+	val pythonscript_path from params.pythonscript_path
 
 	output:
 	file "*.png" into plots_ch
@@ -222,7 +224,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	script:
 	"""
-	python /scratch/cmr736/ubiquitous-rotary-phone/write_outstats.py $CB $count $bclist
+	python ${pythonscript_path}/write_outstats.py $CB $count $bclist
 	"""
 	}
 
@@ -240,12 +242,13 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 	val logs from alignment_logs.collect()
 	val author from params.author
 	val sample from params.sample
+	val pythonscript_path from params.pythonscript_path
 
 	output:
 	file "summary.html" into html_outs_ch
 
 	script:
 	"""
-	python /scratch/cmr736/ubiquitous-rotary-phone/write_html.py $logs $images [$author] [$sample]
+	python ${pythonscript_path}/write_html.py $logs $images [$author] [$sample]
 	"""
 }
