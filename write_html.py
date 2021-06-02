@@ -25,7 +25,7 @@ images_input = system_input[1].split(",")
 images_input = [x.replace("[", "") for x in images_input]
 # force order of images for downstream process:
 images = []
-for i in ['Barcoderank_plot.png', 'Genesat_plot.png', 'UMIsat_plot.png']:
+for i in ['Barcoderank_plot.png', 'Genesat_plot.png', 'UMIsat_plot.png', 'Platelayout_cells.png', 'Platelayout_umis.png']:
     images.append([x.replace(" ", "") for x in images_input if x.endswith(i)][0])
 
 # load inputs as dfs
@@ -217,11 +217,20 @@ Template = """
     MAPPINGTABLE
     CELLSTABLE
 </div>
-
-    <img src="data:image/png;base64, BARCODERANKPLOT" alt="BarcordeRankPlot" style="width: 50%; float: right;">
+<div style="width: 60%; float: right; overflow:hidden; padding: .2%;">
+    <img src="data:image/png;base64, BARCODERANKPLOT" alt="BarcordeRankPlot" style="width: 80%; float: right;">
+      </div>
+<div style="width: 110%, position: absolute; clear:both;"> 
+<p style="text-align: left; color: #094D92; font-size: 30px"> Seqeuncing Saturation Curves: </p>
+</div>
     <img src="data:image/png;base64, UMISSATPLT" alt="UMIs plot" style="width: 45%; float: left;">
     <img src="data:image/png;base64, GENESATPLT" alt="BarcordeRankPlot" style="width: 45%; float: right;">
-
+<div style="width: 110%, position: absolute; clear:both;"> 
+      <p style="text-align: left; color: #094D92; font-size: 30px"> Plate Layouts: </p>
+      </div>
+    <img src="data:image/png;base64, PLATELAYCELL" alt="UMIs plot" style="width: 45%; float: left;">
+    <img src="data:image/png;base64, PLATELAYUMI" alt="BarcordeRankPlot" style="width: 45%; float: right;">
+    
 </body>
 </html>
 
@@ -248,6 +257,8 @@ Template = Template.replace("CELLSTABLE", Cell_table)
 Template = Template.replace("BARCODERANKPLOT", str_files[0])
 Template = Template.replace("UMISSATPLT", str_files[2])
 Template = Template.replace("GENESATPLT", str_files[1])
+Template = Template.replace("PLATELAYCELL", str_files[3])
+Template = Template.replace("PLATELAYUMI", str_files[4])
 
 # write to a file
 f = open("summary.html", "a")
