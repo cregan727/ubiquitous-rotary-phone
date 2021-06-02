@@ -111,6 +111,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     file "*Log.out" into star_log
     file "Aligned.sortedByCoord.out.bam.bai" into bam_index_rseqc, bam_index_genebody
     file "Aligned.sortedByCoord.out.bam" into bamfile_ch
+    file "Solo.out/Gene/filtered/barcodes.tsv.gz" into called_cells_ch
 
 	script:
 
@@ -217,6 +218,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 	val count from ds_count_ch.collect()
 	val bclist from params.bclist
 	val pythonscript_path from params.pythonscript_path
+	val called_cells from called_cells_ch
 
 	output:
 	file "*.png" into plots_ch
@@ -224,7 +226,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	script:
 	"""
-	python ${pythonscript_path}/write_outstats.py $CB $count $bclist
+	python ${pythonscript_path}/write_outstats.py $CB $count $bclist $called_cells
 	"""
 	}
 
