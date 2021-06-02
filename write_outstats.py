@@ -142,6 +142,8 @@ plt.close()
               
                        
 # UMI halfsat
+# Updated to make the p0 a better starting value so it fails less often
+
 
 
 def model(x, vm, km):
@@ -153,7 +155,10 @@ paramaters, covar = scipy.optimize.curve_fit(model,
                                                  regex='Reads').tolist(),
                                              df_median.filter(
                                                  regex='UMI').tolist(),
-                                             p0=[1000, 1000])
+                                             p0=[min(df_means.filter(
+                                                 regex='Reads').tolist()),
+                                                 max(df_median.filter(
+                                                     regex='UMI').tolist())])
 
 plt.scatter(df_means.filter(regex='Reads'), df_median.filter(regex='UMI'))
 x_coords = range(0,
@@ -177,13 +182,17 @@ plt.close()
 
 
 # Gene halfsat
+# Updated to make the p0 a better starting value so it fails less often
 
 paramaters, covar = scipy.optimize.curve_fit(model,
                                              df_means.filter(
                                                  regex='Reads').tolist(),
                                              df_median.filter(
                                                  regex='Gene').tolist(),
-                                             p0=[1000, 1000])
+                                             p0=[min(df_means.filter(
+                                                 regex='Reads').tolist()),
+                                                 max(df_median.filter(
+                                                     regex='Gene').tolist())])
 print(paramaters)
 plt.scatter(df_means.filter(regex='Reads'), df_median.filter(regex='Gene'))
 x_coords = range(0,
