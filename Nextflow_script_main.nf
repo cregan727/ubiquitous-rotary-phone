@@ -226,7 +226,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	script:
 	"""
-	python ${pythonscript_path}/write_outstats.py $CB $count $bclist $called_cells
+	python ${pythonscript_path}/write_outstats.py $CB $count [$bclist] [$called_cells]
 	"""
 	}
 

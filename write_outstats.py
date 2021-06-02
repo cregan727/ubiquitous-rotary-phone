@@ -77,7 +77,7 @@ for i in indices:
     print(percents[i])
 
 
-df_cells = df.loc[called_cells['Barcode]]
+df_cells = df.loc[called_cells['Barcode']]
     
 df_means = df_cells.mean(axis=0)
 df_median = df_cells.median(axis=0)
@@ -88,7 +88,9 @@ print('done writing stats')
 
 
 # make barcode rank plot
-df_bcrankplot = df[['Barcode', "1 UMI"]]
+df_bcrankplot = pd.DataFrame(df["1 UMI"])
+
+
 
 # add row and columns numbers before changing the row order                               
 rows = []
@@ -98,11 +100,13 @@ cols = []
 for i in set(rows):
     cols.extend(range(1, 13))
                                
-df_bcrankplot['rows'] = rows
-df_bcrankplot['cols' = cols  
-df_bcrankplot['Cell'] = [x in called_cells[0].tolist() for x in df_bcrankplot['Barcode']]
+df_bcrankplot["rows"] = rows
+df_bcrankplot["cols"] = cols  
+df_bcrankplot['Cell'] = [x in called_cells['Barcode'].tolist() for x in df_bcrankplot.index]
 df_bcrankplot = df_bcrankplot.sort_values('1 UMI', ascending=False)
 df_bcrankplot['bcrank'] = range(1, len(df_bcrankplot)+1)
+df_bcrp_cells = df_bcrankplot[df_bcrankplot['Cell'] == True]
+df_bcrp_not_cells = df_bcrankplot[df_bcrankplot['Cell'] != True]
 plt.scatter(df_bcrp_cells['bcrank'], df_bcrp_cells['1 UMI'], label='Cells')
 plt.scatter(df_bcrp_not_cells['bcrank'], df_bcrp_not_cells['1 UMI'],
             label='Not Cells', color='darkgrey')
@@ -118,8 +122,8 @@ plt.close()
                                
 # Plate Layout Cells Heatmap
 
-heatmap_UMIs = platelayout.pivot_table(index='rows', columns='cols', values='1 UMI')
-heatmap_Cell = platelayout.pivot_table(index='rows', columns='cols', values='Cell')
+heatmap_UMIs = df_bcrankplot.pivot_table(index='rows', columns='cols', values='1 UMI')
+heatmap_Cell = df_bcrankplot.pivot_table(index='rows', columns='cols', values='Cell')
 
 plt.figure(figsize=[10,5])
 sns.heatmap(heatmap_Cell, cmap='Blues', linewidths=.1, linecolor='black', vmax = 1.5, cbar = False)

@@ -18,6 +18,7 @@
     stranded = 'Reverse'
     barcode_length = 8 
     UMI_length = 8
+    pythonscript_path = '/path/to/python/script/location'
     picard_path = '/path/to/picard/2.23.8/picard.jar'
  
  }
