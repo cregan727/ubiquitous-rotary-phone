@@ -228,8 +228,8 @@ Template = """
 <div style="width: 110%, position: absolute; clear:both;"> 
       <p style="text-align: left; color: #094D92; font-size: 30px"> Plate Layouts: </p>
       </div>
-    <img src="data:image/png;base64, PLATELAYCELL" alt="UMIs plot" style="width: 45%; float: left;">
-    <img src="data:image/png;base64, PLATELAYUMI" alt="BarcordeRankPlot" style="width: 45%; float: right;">
+    <img src="data:image/png;base64, PLATELAYCELL" alt="UMIs plot" style="width: 44%; float: left;">
+    <img src="data:image/png;base64, PLATELAYUMI" alt="BarcordeRankPlot" style="width: 55%; float: right;">
     
 </body>
 </html>
