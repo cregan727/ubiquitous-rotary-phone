@@ -137,7 +137,7 @@ plt.close()
 plt.figure(figsize=[12.5,5])
 sns.heatmap(heatmap_UMIs, cmap='viridis', linewidths=.1, linecolor='black')
 plt.title("Plate Layout - UMI counts per well")
-plt.savefig("Platelayout_cells.png")
+plt.savefig("Platelayout_umis.png")
 plt.close()
               
                        
