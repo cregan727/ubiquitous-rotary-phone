@@ -76,6 +76,8 @@ Channel
 process fastqc {
     tag "FASTQC on $sample_id"
     
+   when: params.fromSTARouts == 'false'
+
 publishDir "${params.pubdir}", mode: 'copy', overwrite: false
 
     input:
@@ -84,7 +86,6 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     output:
     file("fastqc_${sample_id}_logs") into fastqc_ch
 
-	when: params.fromSTARouts == 'false'
 
     script:
     """
@@ -94,40 +95,8 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
 } 
 
 
-// If the STARsolo output file is given as 
 
-process skipstarsolo {
-	tag "skip STARsolo"
-
-
-	input:
-	val pathtoSTARouts from params.pathtoSTARouts
-
-    
-	output:
-    
-    set file("*Log.final.out"), file ('*.bam') into star_aligned
-    file "*.out" into alignment_logs
-    file "*SJ.out.tab"
-    file "*Log.out" into star_log
-    file "Aligned.sortedByCoord.out.bam.bai" into bam_index_rseqc, bam_index_genebody
-    file "Aligned.sortedByCoord.out.bam" into bamfile_ch
-    file "Solo.out/Gene/filtered/barcodes.tsv.gz" into called_cells_ch
-
-
-	when: params.fromSTARouts == 'true'
-
-	script:
-	
-	"""
-	cp -r ${pathtoSTARouts}
-    """  
-	
-} 
-
-
-
-// Map using STARsolo
+// Map using STARsolo or copy and szip STARsolo output files
 
 process starsolo {
 	tag "STARsolo"
@@ -135,6 +104,8 @@ process starsolo {
 publishDir "${params.pubdir}", mode: 'copy', overwrite: false
 
 	input:
+	val fromSTARouts from params.fromSTARouts
+	val pathtoSTARouts from params.pathtoSTARouts
     set pair_id, path(reads) from read_pairs_ch
     val reference from params.reference
 	val bclist from params.bclist
@@ -152,15 +123,23 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     file "Aligned.sortedByCoord.out.bam" into bamfile_ch
     file "Solo.out/Gene/filtered/barcodes.tsv.gz" into called_cells_ch
 
-
-	when: params.fromSTARouts == 'false'
-
 	script:
 
     gene = reads[1]
     barcode = reads[0]
     umi_start = barcode_length.toInteger() + 1
+
     """
+	if [=='true']
+
+	then
+
+	cp -r ${pathtoSTARouts}
+	gzip ./Solo.out/Gene/*/*
+
+
+	else
+
 	STAR --genomeDir ${reference} \
 	--runThreadN 6 \
 	--readFilesIn $barcode $gene \
@@ -178,6 +157,8 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
 	samtools index Aligned.sortedByCoord.out.bam
 	
 	gzip ./Solo.out/Gene/*/*
+
+	fi
 	
     """
 
