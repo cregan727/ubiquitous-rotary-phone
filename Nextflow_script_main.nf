@@ -8,11 +8,16 @@ Since FB5P-seq is a 5' chemistry based method one specific change is that the pa
 is used to set the strandedness in the STARsolo command may need to be changed to Forward or Unstranded for 3' or 
 Smartseq applications. 
 
+
+New update allows the script to be started with a path to a STARsolo folder.
+
 Notes: Params can be specified with a config file, required modules must either be installed and or loaded before beginning.
 
 Params:
 
 params.sample = sample name
+params.fromSTARouts = 'false'
+params.pathtoSTARouts = 
 params.reads = path to the fastqs
 params.bclist = path to barcodes file for your method
 params.reference = path to STAR reference genome
@@ -79,7 +84,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     output:
     file("fastqc_${sample_id}_logs") into fastqc_ch
 
-	when: params.fromSTARouts == 'false
+	when: params.fromSTARouts == 'false'
 
     script:
     """
@@ -87,6 +92,39 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads}
     """  
 } 
+
+
+// If the STARsolo output file is given as 
+
+process skipstarsolo {
+	tag "skip STARsolo"
+
+
+	input:
+	val pathtoSTARouts from params.pathtoSTARouts
+
+    
+	output:
+    
+    set file("*Log.final.out"), file ('*.bam') into star_aligned
+    file "*.out" into alignment_logs
+    file "*SJ.out.tab"
+    file "*Log.out" into star_log
+    file "Aligned.sortedByCoord.out.bam.bai" into bam_index_rseqc, bam_index_genebody
+    file "Aligned.sortedByCoord.out.bam" into bamfile_ch
+    file "Solo.out/Gene/filtered/barcodes.tsv.gz" into called_cells_ch
+
+
+	when: params.fromSTARouts == 'true'
+
+	script:
+	
+	"""
+	cp -r ${pathtoSTARouts}
+    """  
+	
+} 
+
 
 
 // Map using STARsolo
@@ -115,7 +153,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     file "Solo.out/Gene/filtered/barcodes.tsv.gz" into called_cells_ch
 
 
-	when: params.fromSTARouts == 'false
+	when: params.fromSTARouts == 'false'
 
 	script:
 
