@@ -132,6 +132,12 @@ process skipstarsolo {
 	
 	"""
 	cp -r ${pathtoSTARouts}/* .
+	if [ ! -f Aligned.sortedByCoord.out.bam.bai ]; then
+	samtools index Aligned.sortedByCoord.out.bam
+	fi
+	if [ ! -f ./Solo.out/Gene/filtered/barcodes.tsv.gz ]; then
+	gzip ./Solo.out/Gene/*/*
+	fi
     """  
 	
 } 
