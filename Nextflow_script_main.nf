@@ -35,6 +35,7 @@ module load star/intel/2.7.6a
 module load fastqc/0.11.9
 module load samtools/intel/1.12
 module load picard/2.23.8
+module load multiqc/1.9
 umi_tools
 
 Python libraries:
@@ -50,7 +51,6 @@ matplotlib.pyplot
 
 */
 
-params.reads = '/'
 
 if ( params.fromSTARouts == 'false' ) {
 	pathtoSTARouts_ch = Channel.empty()
@@ -89,7 +89,7 @@ Channel
 process fastqc {
     tag "FASTQC on $sample_id"
     
-publishDir "${params.pubdir}", mode: 'copy', overwrite: false
+publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
     input:
     set sample_id, file(reads) from read_pairs2_ch
@@ -106,6 +106,29 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads}
     """  
 } 
+
+process MultiQC {
+
+	publishDir "${params.pubdir}", mode: 'copy', overwrite: true
+
+	input:
+	val fastqcpath from fastqc_ch
+
+	output:
+	file(*) into multiqc
+
+	when:
+	params.fromSTARouts == 'false'
+	
+	script:
+	"""
+	multiqc ${fastqcpath}
+	"""
+
+}
+
+
+
 
 
 // If the STARsolo output file is given as 
@@ -149,7 +172,7 @@ process skipstarsolo {
 process starsolo {
 	tag "STARsolo"
 
-publishDir "${params.pubdir}", mode: 'copy', overwrite: false
+publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	input:
     set pair_id, path(reads) from read_pairs_ch
