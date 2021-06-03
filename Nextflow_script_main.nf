@@ -51,6 +51,22 @@ matplotlib.pyplot
 */
 
 
+if ( fromSTARouts = 'false' ){
+pathtoSTARouts_ch = Channel.empty()
+Channel
+    .fromFilePairs( params.reads )
+    .ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
+    .into { read_pairs_ch; read_pairs2_ch } 
+}
+else {
+pathtoSTARouts_ch = Channel.value( params.pathtoSTARouts )
+read_pairs_ch = Channel.empty()
+read_pairs2_ch = Channel.empty()
+
+
+}
+
+
 /* Making channel for the downsampling - if you'd like to change the percentages to which the output bamfile is downsampled
 the percentages list can be changed. If the percentage is set to 1, the file will be copied instead of downsampled. */
 
@@ -65,10 +81,6 @@ Channel
 
 //Channel for the fastqs - 1 for the fastqc and the other for the STAR input
 
-Channel
-    .fromFilePairs( params.reads )
-    .ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
-    .into { read_pairs_ch; read_pairs2_ch } 
 
 
 // Run FASTQC and send output to specified pubdir
@@ -101,18 +113,14 @@ process skipstarsolo {
 
 
 	input:
-	val pathtoSTARouts from params.pathtoSTARouts
+	val pathtoSTARouts from pathtoSTARouts_ch
 
     
 	output:
     
-    set file("*Log.final.out"), file ('*.bam') into star_aligned
-    file "*.out" into alignment_logs
-    file "*SJ.out.tab"
-    file "*Log.out" into star_log
-    file "Aligned.sortedByCoord.out.bam.bai" into bam_index_rseqc, bam_index_genebody
-    file "Aligned.sortedByCoord.out.bam" into bamfile_ch
-    file "Solo.out/Gene/filtered/barcodes.tsv.gz" into called_cells_ch
+    file "*.out" into alignment_logs_skip
+    file "Aligned.sortedByCoord.out.bam" into bamfile_ch_skip
+    file "Solo.out/Gene/filtered/barcodes.tsv.gz" into called_cells_ch_skip
 
 
 	when: params.fromSTARouts == 'true'
@@ -184,6 +192,13 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
 
 
 }
+
+
+bamfile_ch.mix(bamfile_ch_skip)
+alignment_logs.mix(alignment_logs_skip)
+called_cells_ch.mix(called_cells_ch_skip)
+
+
 
 
 /* In order to assess the quality of the library beyond metrics like seqeuncing saturation alone,
