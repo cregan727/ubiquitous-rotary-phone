@@ -17,7 +17,7 @@ Params:
 
 params.sample = sample name
 params.fromSTARouts = 'false'
-params.pathtoSTARouts = 
+params.pathtoSTARouts = path to a starsolo outs folder
 params.reads = path to the fastqs
 params.bclist = path to barcodes file for your method
 params.reference = path to STAR reference genome
