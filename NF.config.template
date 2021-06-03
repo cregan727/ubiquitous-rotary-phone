@@ -11,8 +11,8 @@
  params {
     sample = 'SRR10099491'
     fromSTARouts = 'false'
-    pathtoSTARouts = 
-    reads = '/path/to/ubiquitous-rotary-phone/fastqs/SRR10099491_{1,2}.fastq.gz'
+    pathtoSTARouts = "/path/to/STAR/outputfolder/"
+    reads = "/path/to/ubiquitous-rotary-phone/fastqs/SRR10099491_{1,2}.fastq.gz"
     bclist = '/path/to/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt'
     reference = '/path/to/references/star_human/'
     pubdir = './DataB1/'
