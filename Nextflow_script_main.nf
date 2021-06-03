@@ -107,7 +107,9 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
     """  
 } 
 
-process MultiQC {
+
+
+process multiqc {
 
 	publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
@@ -115,7 +117,7 @@ process MultiQC {
 	val fastqcpath from fastqc_ch
 
 	output:
-	file(*) into multiqc
+	file("*") into multiqc
 
 	when:
 	params.fromSTARouts == 'false'
