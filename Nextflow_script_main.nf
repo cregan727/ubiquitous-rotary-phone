@@ -50,19 +50,20 @@ matplotlib.pyplot
 
 */
 
+params.reads = '/'
 
-if ( fromSTARouts = 'false' ){
-pathtoSTARouts_ch = Channel.empty()
-Channel
-    .fromFilePairs( params.reads )
-    .ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
-    .into { read_pairs_ch; read_pairs2_ch } 
+if ( params.fromSTARouts == 'false' ) {
+	pathtoSTARouts_ch = Channel.empty()
+	Channel
+    		.fromFilePairs( params.reads )
+    		.ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
+    		.into { read_pairs_ch; read_pairs2_ch } 
 }
-else {
-pathtoSTARouts_ch = Channel.value( params.pathtoSTARouts )
-read_pairs_ch = Channel.empty()
-read_pairs2_ch = Channel.empty()
 
+else {
+	pathtoSTARouts_ch = Channel.value( params.pathtoSTARouts )
+	read_pairs_ch = Channel.empty()
+	read_pairs2_ch = Channel.empty()
 
 }
 
@@ -96,7 +97,8 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     output:
     file("fastqc_${sample_id}_logs") into fastqc_ch
 
-	when: params.fromSTARouts == 'false'
+    when:
+    params.fromSTARouts == 'false'
 
     script:
     """
@@ -123,12 +125,13 @@ process skipstarsolo {
     file "Solo.out/Gene/filtered/barcodes.tsv.gz" into called_cells_ch_skip
 
 
-	when: params.fromSTARouts == 'true'
+	when:
+	params.fromSTARouts == 'true' 
 
 	script:
 	
 	"""
-	cp -r ${pathtoSTARouts}
+	cp -r ${pathtoSTARouts}/* .
     """  
 	
 } 
@@ -161,7 +164,8 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     file "Solo.out/Gene/filtered/barcodes.tsv.gz" into called_cells_ch
 
 
-	when: params.fromSTARouts == 'false'
+	when:
+	params.fromSTARouts == 'false'
 
 	script:
 
@@ -194,9 +198,9 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
 }
 
 
-bamfile_ch.mix(bamfile_ch_skip)
-alignment_logs.mix(alignment_logs_skip)
-called_cells_ch.mix(called_cells_ch_skip)
+bamfile_ch_mix = bamfile_ch.mix(bamfile_ch_skip)
+alignment_logs_mix = alignment_logs.mix(alignment_logs_skip)
+called_cells_ch_mix = called_cells_ch.mix(called_cells_ch_skip)
 
 
 
@@ -210,7 +214,7 @@ process downsample {
 	tag "Downsample on $percent"
 
 	input:
-	file "Aligned.sortedByCoord.out.bam" from bamfile_ch
+	file "Aligned.sortedByCoord.out.bam" from bamfile_ch_mix
 	each(percent) from percents
 	val bclength from params.barcode_length
 	val picard_path from params.picard_path
@@ -275,7 +279,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 	val count from ds_count_ch.collect()
 	val bclist from params.bclist
 	val pythonscript_path from params.pythonscript_path
-	val called_cells from called_cells_ch
+	val called_cells from called_cells_ch_mix
 
 	output:
 	file "*.png" into plots_ch
@@ -298,7 +302,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	input: 
 	val images from plots_ch.collect()
-	val logs from alignment_logs.collect()
+	val logs from alignment_logs_mix.collect()
 	val author from params.author
 	val sample from params.sample
 	val pythonscript_path from params.pythonscript_path
