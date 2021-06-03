@@ -54,6 +54,7 @@ matplotlib.pyplot
 
 if ( params.fromSTARouts == 'false' ) {
 	pathtoSTARouts_ch = Channel.empty()
+	reference_ch = Channel.value(params.reference)
 	Channel
     		.fromFilePairs( params.reads )
     		.ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
@@ -64,6 +65,7 @@ else {
 	pathtoSTARouts_ch = Channel.value( params.pathtoSTARouts )
 	read_pairs_ch = Channel.empty()
 	read_pairs2_ch = Channel.empty()
+	reference_ch = Channel.empty()
 
 }
 
