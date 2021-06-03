@@ -79,6 +79,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     output:
     file("fastqc_${sample_id}_logs") into fastqc_ch
 
+	when: params.fromSTARouts == 'false
 
     script:
     """
@@ -112,6 +113,9 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: false
     file "Aligned.sortedByCoord.out.bam.bai" into bam_index_rseqc, bam_index_genebody
     file "Aligned.sortedByCoord.out.bam" into bamfile_ch
     file "Solo.out/Gene/filtered/barcodes.tsv.gz" into called_cells_ch
+
+
+	when: params.fromSTARouts == 'false
 
 	script:
 
