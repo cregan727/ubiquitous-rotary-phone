@@ -1,12 +1,12 @@
                                         nNoAdapter              0
                                             nNoUMI              0
                                              nNoCB              0
-                                            nNinCB           5716
-                                           nNinUMI          98082
-                                   nUMIhomopolymer          66599
+                                            nNinCB            297
+                                           nNinUMI          60061
+                                   nUMIhomopolymer         580505
                                           nTooMany              0
-                                          nNoMatch         730016
+                                          nNoMatch       22208340
                                nMismatchesInMultCB              0
-                                       nExactMatch       64237706
-                                    nMismatchOneWL        1942040
+                                       nExactMatch       34932334
+                                    nMismatchOneWL       14798401
                                  nMismatchToMultWL              0
