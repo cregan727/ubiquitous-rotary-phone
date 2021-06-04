@@ -23,16 +23,18 @@ summary_csv_path = str(summary_csv_path) + "/Gene/Summary.csv"
 # Add images input in order
 images_input = system_input[1].split(",")
 images_input = [x.replace("[", "") for x in images_input]
+
+
 # force order of images for downstream process:
 images = []
 for i in ['Barcoderank_plot.png', 'Genesat_plot.png', 'UMIsat_plot.png', 'Platelayout_cells.png', 'Platelayout_umis.png']:
     images.append([x.replace(" ", "") for x in images_input if x.endswith(i)][0])
 # Was multiQC run?
 multiqc_run = False
-if 'MultiQCstats.png' in images_input:
+if 'MultiQCstats.png' in str(images_input):
     multiqc_run = True
-    for i in ['MultiQCstats.png', 'Multiqc_pbq.png', 'Multiqc_status.png.png']:
-    images.append([x.replace(" ", "") for x in images_input if x.endswith(i)][0])
+    for i in ['MultiQCstats.png', 'Multiqc_pbq.png', 'Multiqc_status.png']:
+        images.append([x.replace(" ", "") for x in images_input if x.endswith(i)][0])
     
 
 # load inputs as dfs
@@ -170,6 +172,9 @@ print("made cells table")
 
 # encode the images from the previous plots
 str_files = []
+
+print(images)
+
 for image in images:
     encoded_string = ""
     with open(image, "rb") as image_file:
@@ -258,13 +263,12 @@ MULTIQCTEMP = """
 
 """
 
-MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCSTATS", str_files[5])
-MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCPBQ", str_files[6])
-MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCPBQ", str_files[7])
-
 if multiqc_run == False:
     Template = Template.replace("MULTIQC", "")
 elif multiqc_run == True:
+    MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCSTATS", str_files[5])
+    MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCPBQ", str_files[6])
+    MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCPBQ", str_files[7])
     Template = Template.replace("MULTIQC", "MULTIQCTEMP")
 
 

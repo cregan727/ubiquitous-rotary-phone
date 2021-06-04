@@ -120,7 +120,6 @@ process multiqc {
 	val pythonscript_path from params.pythonscript_path
 
 	output:
-	file("*") into multiqc
 	file("*.png") into mqc_plots_ch
 
 	when:
