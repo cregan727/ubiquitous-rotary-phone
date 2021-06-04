@@ -27,6 +27,13 @@ images_input = [x.replace("[", "") for x in images_input]
 images = []
 for i in ['Barcoderank_plot.png', 'Genesat_plot.png', 'UMIsat_plot.png', 'Platelayout_cells.png', 'Platelayout_umis.png']:
     images.append([x.replace(" ", "") for x in images_input if x.endswith(i)][0])
+# Was multiQC run?
+multiqc_run = False
+if 'MultiQCstats.png' in images_input:
+    multiqc_run = True
+    for i in ['MultiQCstats.png', 'Multiqc_pbq.png', 'Multiqc_status.png.png']:
+    images.append([x.replace(" ", "") for x in images_input if x.endswith(i)][0])
+    
 
 # load inputs as dfs
 Log_final_out = pd.read_csv(Log_final_out_path,
@@ -230,12 +237,36 @@ Template = """
       </div>
     <img src="data:image/png;base64, PLATELAYCELL" alt="UMIs plot" style="width: 44%; float: left;">
     <img src="data:image/png;base64, PLATELAYUMI" alt="BarcordeRankPlot" style="width: 55%; float: right;">
-    
+ 
+ MULTIQC
+ 
 </body>
 </html>
 
 
 """
+
+MULTIQCTEMP = """
+
+<div style="width: 110%, position: absolute; clear:both;"> 
+      <p style="text-align: left; color: #094D92; font-size: 30px"> MultiQC outputs: </p>
+      </div>
+    <img src="data:image/png;base64, MULTIQCSTATS" alt="Multiqcstat" style="width: 100%; float: right;">
+    <img src="data:image/png;base64, MULTIQCPBQ" alt="per base quality" style="width: 44%; float: left;">
+    <img src="data:image/png;base64, MULTIQCSTATUS" alt="Status" style="width: 55%; float: right;">
+
+
+"""
+
+MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCSTATS", str_files[5])
+MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCPBQ", str_files[6])
+MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCPBQ", str_files[7])
+
+if multiqc_run == False:
+    Template = Template.replace("MULTIQC", "")
+elif multiqc_run == True:
+    Template = Template.replace("MULTIQC", "MULTIQCTEMP")
+
 
 # File in the HTML
 
