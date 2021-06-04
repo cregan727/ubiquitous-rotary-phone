@@ -332,12 +332,16 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 Information about the mapping rates to the genome and transcriptome, and stats about the cells based on the STARsolo output.
 It also includes a barcode rank plot, and the two saturation plots generated earlier. */
 
+plots_ch_com = plots_ch.mix(mqc_plots_ch)
+
+
+
 process html {
 
 publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	input: 
-	val images from plots_ch.collect()
+	val images from plots_ch_com.collect()
 	val logs from alignment_logs_mix.collect()
 	val author from params.author
 	val sample from params.sample
