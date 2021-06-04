@@ -7,7 +7,8 @@ Project Goals:
 * Align using STARsolo
 * Estimate library complexity
 * Output to fill in a template HTML
-* Alternatively, calculate library complexity information and generate HTML file from data previously analyzed with STARsolo (as of June 3)
+* Alternatively, calculate library complexity information and generate HTML file from data previously analyzed with STARsolo
+* TODO: Add MultiQC stats/plots to HTML if it starts with fastqs
 
 
 Data from https://www.frontiersin.org/articles/10.3389/fimmu.2020.00216/full#h7
