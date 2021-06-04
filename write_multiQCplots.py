@@ -82,7 +82,7 @@ plt.xlabel("Base", fontsize='x-large')
 plt.title("Per Base Quality Score", fontsize='xx-large')
 plt.savefig("Multiqc_pbq.png", facecolor='white')
 plt.close()
-print("Done with per base qual plot)
+print("Done with per base qual plot")
 
 
 # Add Status Check plot
