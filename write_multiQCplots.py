@@ -103,7 +103,7 @@ custom_lines = [Line2D([0], [0], color='red', lw=4),
 sns.heatmap(stat_check, cmap="RdYlBu", vmax=1.1, vmin=.15, cbar=False)
 plt.legend(custom_lines, ['Fail', "Pass"])
 plt.title("MultiQC Status", fontsize='xx-large')
-plt.savefig("Multiqc_status.png", facecolor='white')
+plt.savefig("Multiqc_status.png", facecolor='white', bbox_inches="tight")
 plt.close()
 print("Done with Status Plot")
 
