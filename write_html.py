@@ -182,7 +182,7 @@ for image in images:
         str_file = str(encoded_string)
         str_files.append(str_file[2:len(str_file)-1])
 print("Base64 enocoded plots")
-
+print(len(str_files))
 
 Template = """
 <!DOCTYPE html>
@@ -263,13 +263,13 @@ MULTIQCTEMP = """
 
 """
 
-if multiqc_run == False:
+if (multiqc_run == False):
     Template = Template.replace("MULTIQC", "")
-elif multiqc_run == True:
+elif (multiqc_run == True):
     MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCSTATS", str_files[5])
     MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCPBQ", str_files[6])
-    MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCPBQ", str_files[7])
-    Template = Template.replace("MULTIQC", "MULTIQCTEMP")
+    MULTIQCTEMP = MULTIQCTEMP.replace("MULTIQCSTATUS", str_files[7])
+    Template = Template.replace("MULTIQC", MULTIQCTEMP)
 
 
 # File in the HTML

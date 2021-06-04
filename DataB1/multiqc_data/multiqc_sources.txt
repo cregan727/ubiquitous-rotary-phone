@@ -1,3 +1,0 @@
-Module	Section	Sample Name	Source
-FastQC	all_sections	SRR10099491_1	/scratch/cmr736/ubiquitous-rotary-phone/work/7e/72129c2658d16f8d0f3d09f42cb4ce/fastqc_SRR10099491_logs/SRR10099491_1_fastqc.zip
-FastQC	all_sections	SRR10099491_2	/scratch/cmr736/ubiquitous-rotary-phone/work/7e/72129c2658d16f8d0f3d09f42cb4ce/fastqc_SRR10099491_logs/SRR10099491_2_fastqc.zip

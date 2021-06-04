@@ -59,7 +59,7 @@ echo FILE 0
 zcat      "SRR10099491_2.fastq.gz"
 
 Number of CBs in the whitelist = 96
-Jun 03 16:40:10Finished reading, sorting and deduplicating CB whitelist sequences.
+Jun 04 12:54:15Finished reading, sorting and deduplicating CB whitelist sequences.
 Finished loading and checking parameters
 Reading genome generation parameters:
 ### STAR   --runMode genomeGenerate   --runThreadN 20   --genomeDir ./   --genomeFastaFiles /scratch/cmr736/references/refdata-gex-GRCh38-2020-A/fasta/genome.fa      --sjdbGTFfile /scratch/cmr736/references/refdata-gex-GRCh38-2020-A/genes/genes.gtf
@@ -278,7 +278,7 @@ Number of real (reference) chromosomes= 194
 193	KI270392.1	971	3137863680
 194	KI270394.1	970	3138125824
 --sjdbOverhang = 100 taken from the generated genome
-Started loading the genome: Thu Jun  3 16:40:10 2021
+Started loading the genome: Fri Jun  4 12:54:15 2021
 
 Genome: size given as a parameter = 3211173485
 SA: size given as a parameter = 24900747856
@@ -292,7 +292,7 @@ Loading Genome ... done! state: good=1 eof=0 fail=0 bad=0; loaded 3211173485 byt
 SA file size: 24900747856 bytes; state: good=1 eof=0 fail=0 bad=0
 Loading SA ... done! state: good=1 eof=0 fail=0 bad=0; loaded 24900747856 bytes
 Loading SAindex ... done: 1565873619 bytes
-Finished loading the genome: Thu Jun  3 16:40:33 2021
+Finished loading the genome: Fri Jun  4 12:54:40 2021
 
 Processing splice junctions database sjdbN=362117,   pGe.sjdbOverhang=100 
 alignIntronMax=alignMatesGapMax=0, the max intron size will be approximately determined by (2^winBinNbits)*winAnchorDistNbins=589824
@@ -306,75 +306,75 @@ Created thread # 2
 Created thread # 3
 Created thread # 4
 Created thread # 5
-BAM sorting: 217759 mapped reads
+BAM sorting: 217266 mapped reads
 BAM sorting bins genomic start loci:
-1	0	26474088
-2	0	52405695
-3	0	151167387
-4	0	212020251
-5	1	73744089
-6	2	16738727
+1	0	26473703
+2	0	50617945
+3	0	150352915
+4	0	206199881
+5	1	73709485
+6	2	16738745
 7	2	65499129
-8	2	73633830
-9	3	6537934
-10	3	49269476
-11	3	98600058
-12	4	27256243
-13	5	23566379
-14	5	100369124
-15	6	44715442
-16	6	80122697
-17	7	30187098
-18	8	4946724
-19	8	29431338
-20	8	75286414
-21	9	49213826
-22	10	17861430
-23	10	50798226
-24	11	61885053
-25	11	106697776
-26	11	218228781
-27	12	44901566
-28	13	8437260
-29	14	22856598
-30	15	10115675
-31	15	96617939
-32	16	4077226
-33	16	99948900
-34	17	14653333
-35	17	134161044
-36	17	150406951
-37	17	178150954
-38	18	32581869
-39	18	73518207
-40	19	5528587
-41	19	44574694
-42	19	128502866
-43	20	82292221
-44	21	37268979
-45	21	136862261
-46	22	7800
-47	23	12976838
-48	23	123514755
+8	2	73977917
+9	3	6752326
+10	3	49269878
+11	3	103967968
+12	4	27256461
+13	5	23325407
+14	5	100369092
+15	6	44715441
+16	6	79845363
+17	7	30183608
+18	8	4946651
+19	8	28719992
+20	8	75148611
+21	9	46104429
+22	10	17861398
+23	10	50927395
+24	11	61883511
+25	11	106697314
+26	11	218217505
+27	12	38433905
+28	13	8437166
+29	14	22856975
+30	15	14488754
+31	15	104351268
+32	16	6641083
+33	16	99948931
+34	17	14653343
+35	17	133075205
+36	17	150407172
+37	17	180831066
+38	18	32589673
+39	18	73519405
+40	19	5529225
+41	19	44799803
+42	19	133614202
+43	20	98041830
+44	21	37784969
+45	21	137243369
+46	22	7775
+47	23	12976792
+48	23	123514386
 Thread #2 end of input stream, nextChar=-1
 Completed: thread #1
+Completed: thread #3
+Completed: thread #5
+Completed: thread #4
 Completed: thread #0
 Joined thread # 1
-Completed: thread #3
-Completed: thread #4
-Completed: thread #5
 Completed: thread #2
 Joined thread # 2
 Joined thread # 3
 Joined thread # 4
 Joined thread # 5
-Jun 03 16:46:34 ..... started Solo counting
-Jun 03 16:46:34 ... Starting Solo post-map for Gene
-Jun 03 16:46:35 ... Allocated and initialized readInfo array, nReadsInput = 67080160
-Jun 03 16:46:35 ... Finished allocating arrays for Solo 0.577108 GB
-Jun 03 16:47:20 ... Finished reading reads from Solo files nCB=96, nReadPerCBmax=3314626, nMatch=51638732
-Jun 03 16:47:46 ... Finished collapsing UMIs
-Jun 03 16:47:46 ..... finished Solo counting
-Jun 03 16:47:46 ..... started sorting BAM
-Max memory needed for sorting = 508441024
+Jun 04 13:04:30 ..... started Solo counting
+Jun 04 13:04:30 ... Starting Solo post-map for Gene
+Jun 04 13:04:31 ... Allocated and initialized readInfo array, nReadsInput = 67080160
+Jun 04 13:04:31 ... Finished allocating arrays for Solo 0.577108 GB
+Jun 04 13:05:18 ... Finished reading reads from Solo files nCB=96, nReadPerCBmax=3314626, nMatch=51638732
+Jun 04 13:05:45 ... Finished collapsing UMIs
+Jun 04 13:05:45 ..... finished Solo counting
+Jun 04 13:05:45 ..... started sorting BAM
+Max memory needed for sorting = 486169697
 ALL DONE!
