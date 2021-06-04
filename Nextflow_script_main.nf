@@ -117,9 +117,11 @@ process multiqc {
 
 	input:
 	val fastqcpath from fastqc_ch
+	val pythonscript_path from params.pythonscript_path
 
 	output:
 	file("*") into multiqc
+	file("*.png") into mqc_plots_ch
 
 	when:
 	params.fromSTARouts == 'false'
@@ -127,6 +129,7 @@ process multiqc {
 	script:
 	"""
 	multiqc ${fastqcpath}
+	python ${pythonscript_path}/write_multiQCplots.py
 	"""
 
 }
