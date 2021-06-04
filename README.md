@@ -7,8 +7,9 @@ Project Goals:
 * Align using STARsolo
 * Estimate library complexity
 * Output to fill in a template HTML
-* Alternatively, calculate library complexity information and generate HTML file from data previously analyzed with STARsolo
+* Alternatively, calculate library complexity information and generate HTML file from data previously analyzed with STARsolo - DataT2 is an example of the same dataset as DataT1, but run on a STARsolo output folder instead of fastqs
 * TODO: Add MultiQC stats/plots to HTML if it starts with fastqs
+* TODO: Allow switching of which read is the barcode read in the STARsolo input command - in current form it's set up for read 2 as the barcode read and read 1 as the cDNA read and read 2 as the barcode read
 
 
 Data from https://www.frontiersin.org/articles/10.3389/fimmu.2020.00216/full#h7
