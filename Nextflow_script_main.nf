@@ -54,6 +54,7 @@ matplotlib.pyplot
 
 if ( params.fromSTARouts == 'false' ) {
 	pathtoSTARouts_ch = Channel.empty()
+	reference_ch = Channel.value(params.reference)
 	Channel
     		.fromFilePairs( params.reads )
     		.ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
@@ -64,6 +65,7 @@ else {
 	pathtoSTARouts_ch = Channel.value( params.pathtoSTARouts )
 	read_pairs_ch = Channel.empty()
 	read_pairs2_ch = Channel.empty()
+	reference_ch = Channel.empty()
 
 }
 
@@ -178,7 +180,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	input:
     set pair_id, path(reads) from read_pairs_ch
-    val reference from params.reference
+    val reference from reference_ch
 	val bclist from params.bclist
 	val barcode_length from params.barcode_length
 	val UMI_length from params.UMI_length
