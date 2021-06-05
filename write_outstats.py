@@ -169,10 +169,10 @@ y_coords = [model(x, paramaters[0], paramaters[1]) for x in x_coords]
 plt.plot(x_coords, y_coords)
 plt.axhline(paramaters[0], color='black',
             linestyle='-',
-            label='Max Median UMI Count: ' + str(round(paramaters[0])))
+            label='Max Median UMI Count: ' + f"{int(paramaters[0]):,d}")
 plt.axvline(paramaters[1], color='black',
             linestyle='--',
-            label='Half Saturation Point: ' + str(round(paramaters[1])))
+            label='Half Saturation Point: ' + f"{int(paramaters[1]):,d}")
 plt.legend()
 plt.ylabel("Median UMIs per Cell/Well")
 plt.xlabel("Mean Reads per Cell/Well")
@@ -204,11 +204,11 @@ plt.plot(x_coords, y_coords)
 plt.axhline(paramaters[0],
             color='black',
             linestyle='-',
-            label='Max Median Gene Count: ' + str(round(paramaters[0])))
+            label='Max Median Gene Count: ' + f"{int(paramaters[0]):,d}")
 plt.axvline(paramaters[1],
             color='black',
             linestyle='--',
-            label='Half Saturation Point: ' + str(round(paramaters[1])))
+            label='Half Saturation Point: ' + f"{int(paramaters[1]):,d}")
 plt.legend()
 plt.ylabel("Median Genes per Cell/Well")
 plt.xlabel("Mean Reads per Cell/Well")
