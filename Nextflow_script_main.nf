@@ -16,13 +16,14 @@ Notes: Params can be specified with a config file, required modules must either 
 Params:
 
 params.sample = sample name
+params.R1_barcode = 'false'
 params.fromSTARouts = 'false'
 params.pathtoSTARouts = path to a starsolo outs folder
 params.reads = path to the fastqs
 params.bclist = path to barcodes file for your method
 params.reference = path to STAR reference genome
 params.pubdir = directory to which the outputs will go
-params.author = your name/ sample name/ anything you want to appear alongside the date in the header of the html file - note that commas will be removed
+params.author = your name/ project name/ anything you want to appear alongside the date in the header of the html file - note that commas will be removed
 params.stranded = 'Forward' (most 3' methods), 'Reverse' (FB5P-seq), 'Unstranded' (smartseq methods)
 params.barcode_length = barcode length 
 params.UMI_length = umi length
@@ -51,6 +52,10 @@ matplotlib.pyplot
 
 */
 
+// First set some defaults:
+
+params.R1_barcode = 'true'
+
 
 if ( params.fromSTARouts == 'false' ) {
 	pathtoSTARouts_ch = Channel.empty()
@@ -68,7 +73,6 @@ else {
 	reference_ch = Channel.empty()
 
 }
-
 
 /* Making channel for the downsampling - if you'd like to change the percentages to which the output bamfile is downsampled
 the percentages list can be changed. If the percentage is set to 1, the file will be copied instead of downsampled. */
@@ -203,14 +207,20 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 	params.fromSTARouts == 'false'
 
 	script:
-
-    gene = reads[1]
-    barcode = reads[0]
+	if ( params.R1_barcode == 'false' ) {
+    	gene = reads[0]
+    	barcode = reads[1]
+    	}
+	else {
+    	gene = reads[1]
+    	barcode = reads[0]
+	}
+    
     umi_start = barcode_length.toInteger() + 1
     """
 	STAR --genomeDir ${reference} \
 	--runThreadN 6 \
-	--readFilesIn $barcode $gene \
+	--readFilesIn $gene $barcode \
 	--soloCBwhitelist $bclist \
 	--limitBAMsortRAM 20000000000 \
 	--readFilesCommand zcat \
