@@ -245,6 +245,13 @@ Template = """
  
  MULTIQC
  
+ 
+ 
+ <div style="background-color: Black; text-align:left; padding: 20px">
+  <b style="color: White; font-size: 10px"> Plate Based Sequencing Analysis Pipeline - Claire Regan - 2021  </b>
+  <HR WIDTH="100%" COLOR="#17BECF" SIZE="4">
+</div>
+
 </body>
 </html>
 
