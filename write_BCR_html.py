@@ -112,11 +112,13 @@ dotplot_data.loc['IGHD'] = [NaN] * len(dotplot_data.columns)
 dotplot_data.loc['IGHE'] = [NaN] * len(dotplot_data.columns)
 
 # Heavy/Light dotplot
-source = dotplot_data.melt(col_level='L_C_gene')
+source = dotplot_data.melt(ignore_index=False, col_level='L_C_gene')
+print(source)
 source["H_C_gene"] = source.index
 source['Light Chain'] = np.where(["IGK" in x for x in source['L_C_gene']],
                                  "Kappa", "Lambda")
 
+print(source.index.tolist())
 dotplot_BCR = alt.Chart(source).mark_circle().encode(
     x=alt.X('H_C_gene',
             scale=alt.Scale(
@@ -128,13 +130,15 @@ dotplot_BCR = alt.Chart(source).mark_circle().encode(
     color=alt.Color('Light Chain', scale=alt.Scale(scheme='viridis')),
     tooltip=['value', 'Light Chain']
 ).properties(
-    width=1000,
+    width='container',
     height=200,
     title="Heavy and Light Chain usage for cells with Paired Data",
 ).interactive()
 
 bcr_dp_html = dotplot_BCR.to_html()
+print(bcr_dp_html)
 bcr_dp_html = bcr_dp_html[bcr_dp_html.find("<div id"):bcr_dp_html.find("</body>")]
+print(bcr_dp_html)
 bcr_dp_html = bcr_dp_html.replace("vis", "vis_dp_b")
 bcr_dp_html = bcr_dp_html.replace(
     """<div id="vis_dp_b"></div>""",
@@ -159,5 +163,7 @@ htmlfile = htmlfile.replace('ADD_BCR_INFO', BCRTEMP)
 f = open("summary.html", 'w')
 f.write(htmlfile)
 f.close()
-
+print(np.sort(source.index.tolist()))
 print("Done adding to html")
+print(htmlfile)
+
