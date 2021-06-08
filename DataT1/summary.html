@@ -14,11 +14,14 @@
       width: 100%
     }
 </style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@4.8.1"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
 </head>
 <body>
 <div style="background-color: Black; text-align:left; padding: 20px">
     <b style="color: White; font-size: 50px"> Plate Based Sequencing Results  </b>
-    <p style="color: White;">FB5P-seq -  June 04, 2021 - SRR10099498</p>
+    <p style="color: White;">FB5P-seq -  June 08, 2021 - SRR10099498</p>
     <HR WIDTH="100%" COLOR="#17BECF" SIZE="4">
 </div>
 
@@ -156,6 +159,102 @@
 
 
  
+
+
+<div style="width: 100%; height: 700px; position: relative; clear:both;overflow: hidden; white-space:nowrap; padding-top: 10px;clear:both;"> 
+<div style="width: 110%, position: absolute; clear:both;"> 
+      <p style="text-align: left; color: #094D92; font-size: 30px"> TCR STATS: </p>
+      </div>
+<div id="vis_fq_t" style="width: 50%; height: 50%; float: left; position: absolute; clear:both; overflow: hidden; white-space:nowrap"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-25f1d0d6cca565003f7736846b9b05dc"}, "mark": {"type": "bar", "color": "reds"}, "encoding": {"color": {"type": "nominal", "field": "chain", "scale": {"scheme": "viridis"}}, "x": {"type": "quantitative", "bin": {"step": 0.9999}, "field": "freq", "title": "Number of Cells the CDR3 Amino Acid Sequence is Observed in"}, "y": {"type": "quantitative", "aggregate": "count", "title": "Number of CDR3 AA sequences"}}, "height": 200, "title": "Frequency Histogram", "width": "container", "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json", "datasets": {"data-25f1d0d6cca565003f7736846b9b05dc": [{"freq": 1, "chain": "VJ"}, {"freq": 5, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 2, "chain": "VJ"}, {"freq": 7, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 3, "chain": "VJ"}, {"freq": 2, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 2, "chain": "VJ"}, {"freq": 3, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 6, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 2, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 7, "chain": "VJ"}, {"freq": 1, "chain": "VJ"}, {"freq": 6, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 8, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 7, "chain": "VDJ"}, {"freq": 4, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 2, "chain": "VDJ"}, {"freq": 2, "chain": "VDJ"}, {"freq": 2, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 3, "chain": "VDJ"}, {"freq": 2, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 2, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 4, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}, {"freq": 1, "chain": "VDJ"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis_fq_t');
+      vegaEmbed("#vis_fq_t", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+
+    <div style="width: 50%; float: right; padding-top: 50px;"> 
+      <table class="dataframe">
+  <thead>
+    <tr style="text-align: left;">
+      <th></th>
+      <th>Number of Cells</th>
+      <th>Percent of Cells</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>No TCR</th>
+      <td>12</td>
+      <td>14.12%</td>
+    </tr>
+    <tr>
+      <th>Alpha/Gamma Only</th>
+      <td>10</td>
+      <td>11.76%</td>
+    </tr>
+    <tr>
+      <th>Beta/Delta only</th>
+      <td>8</td>
+      <td>9.41%</td>
+    </tr>
+    <tr>
+      <th>Paired TCR</th>
+      <td>55</td>
+      <td>64.71%</td>
+    </tr>
+    <tr>
+      <th>Total</th>
+      <td>85</td>
+      <td>100.0%</td>
+    </tr>
+  </tbody>
+</table>
+      </div>
+<div id="vis_dp_t" style="width: 100%; position: absolute; clear:both; overflow: hidden; white-space:nowrap; padding-top: 300px; padding-bottom: 20px"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-ca8d80949e670503408beba2387d3519"}, "mark": "circle", "encoding": {"color": {"type": "nominal", "field": "T-Cell Type", "scale": {"scheme": "viridis"}}, "size": {"type": "quantitative", "field": "value"}, "tooltip": [{"type": "quantitative", "field": "value"}, {"type": "nominal", "field": "T-Cell Type"}], "x": {"type": "nominal", "field": "VDJ_C_gene", "scale": {"domain": ["*", "*", "*", "*", "TRBC1", "TRBC1", "TRBC1", "TRBC1", "TRBC2", "TRBC2", "TRBC2", "TRBC2", "TRDC1", "TRDC1", "TRDC1", "TRDC1", "TRDC2", "TRDC2", "TRDC2", "TRDC2"]}, "title": "Beta/Delta chain"}, "y": {"type": "nominal", "field": "VJ_C_gene", "scale": {"domain": ["*", "TRAC", "TRGC1", "TRGC2"]}, "title": "Alpha/Gamma Chain"}}, "height": 200, "selection": {"selector001": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "title": "Chain pairing for cells with Paired Data", "width": "container", "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json", "datasets": {"data-ca8d80949e670503408beba2387d3519": [{"VJ_C_gene": "*", "value": 1.0, "VDJ_C_gene": "*", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "*", "value": 2.0, "VDJ_C_gene": "TRBC1", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "*", "value": 1.0, "VDJ_C_gene": "TRBC2", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "*", "value": null, "VDJ_C_gene": "TRDC1", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "*", "value": null, "VDJ_C_gene": "TRDC2", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "TRAC", "value": 3.0, "VDJ_C_gene": "*", "T-Cell Type": "AB T-Cell"}, {"VJ_C_gene": "TRAC", "value": 21.0, "VDJ_C_gene": "TRBC1", "T-Cell Type": "AB T-Cell"}, {"VJ_C_gene": "TRAC", "value": 27.0, "VDJ_C_gene": "TRBC2", "T-Cell Type": "AB T-Cell"}, {"VJ_C_gene": "TRAC", "value": null, "VDJ_C_gene": "TRDC1", "T-Cell Type": "AB T-Cell"}, {"VJ_C_gene": "TRAC", "value": null, "VDJ_C_gene": "TRDC2", "T-Cell Type": "AB T-Cell"}, {"VJ_C_gene": "", "value": null, "VDJ_C_gene": "*", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "", "value": null, "VDJ_C_gene": "TRBC1", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "", "value": null, "VDJ_C_gene": "TRBC2", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "", "value": null, "VDJ_C_gene": "TRDC1", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "", "value": null, "VDJ_C_gene": "TRDC2", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "", "value": null, "VDJ_C_gene": "*", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "", "value": null, "VDJ_C_gene": "TRBC1", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "", "value": null, "VDJ_C_gene": "TRBC2", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "", "value": null, "VDJ_C_gene": "TRDC1", "T-Cell Type": "GD T-Cell/other"}, {"VJ_C_gene": "", "value": null, "VDJ_C_gene": "TRDC2", "T-Cell Type": "GD T-Cell/other"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis_dp_t');
+      vegaEmbed("#vis_dp_t", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+
+
+</div>
+
+ 
+ 
+ <div style="background-color: Black; text-align:left; padding: 20px">
+  <b style="color: White; font-size: 10px"> Plate Based Sequencing Analysis Pipeline - Claire Regan - 2021  </b>
+  <HR WIDTH="100%" COLOR="#17BECF" SIZE="4">
+</div>
+
 </body>
 </html>
 

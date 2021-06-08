@@ -130,7 +130,7 @@ dotplot_TCR = alt.Chart(source).mark_circle().encode(
     color=alt.Color('T-Cell Type', scale=alt.Scale(scheme='viridis')),
     tooltip=['value', 'T-Cell Type']
 ).properties(
-    width=1000,
+    width='container',
     height=200,
     title="Chain pairing for cells with Paired Data",
 ).interactive()
