@@ -128,7 +128,7 @@ dotplot_BCR = alt.Chart(source).mark_circle().encode(
     color=alt.Color('Light Chain', scale=alt.Scale(scheme='viridis')),
     tooltip=['value', 'Light Chain']
 ).properties(
-    width='container',
+    width=1000,
     height=200,
     title="Heavy and Light Chain usage for cells with Paired Data",
 ).interactive()
