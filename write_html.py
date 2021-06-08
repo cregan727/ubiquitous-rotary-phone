@@ -245,6 +245,8 @@ Template = """
  
  MULTIQC
  
+ADD_BCR_INFO
+ADD_TCR_INFO
  
  
  <div style="background-color: Black; text-align:left; padding: 20px">

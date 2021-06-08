@@ -38,6 +38,10 @@ TRUSTaligned = pd.read_csv(TRUSTTSV,
     index_col='#barcode')
 Bcells = TRUSTaligned[TRUSTaligned['cell_type'] == 'B']
 
+print(CELLNUM)
+CELLNUM = int(CELLNUM)
+print(type(CELLNUM))
+
 # Calculate the percentages of heavy, light, and paired chains found in the B cells
 No_BCR = CELLNUM - len(Bcells.index)
 L_only = len(Bcells[(Bcells['chain1'] == "*") & (Bcells['chain2'] != "*")])
@@ -108,7 +112,7 @@ dotplot_data.loc['IGHD'] = [NaN] * len(dotplot_data.columns)
 dotplot_data.loc['IGHE'] = [NaN] * len(dotplot_data.columns)
 
 # Heavy/Light dotplot
-source = dotplot_data.melt(ignore_index=False, col_level='L_C_gene')
+source = dotplot_data.melt(col_level='L_C_gene')
 source["H_C_gene"] = source.index
 source['Light Chain'] = np.where(["IGK" in x for x in source['L_C_gene']],
                                  "Kappa", "Lambda")

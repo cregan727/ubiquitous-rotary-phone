@@ -49,13 +49,14 @@ re
 operator
 scipy.optimize
 matplotlib.pyplot
+altair
 
 */
 
 // First set some defaults:
 
 params.R1_barcode = 'true'
-
+params.vdj = 'false'
 
 if ( params.fromSTARouts == 'false' ) {
 	pathtoSTARouts_ch = Channel.empty()
@@ -72,6 +73,9 @@ else {
 	read_pairs2_ch = Channel.empty()
 	reference_ch = Channel.empty()
 
+}
+if ( params.vdj == 'false' ) {
+        TRUSTout_ch = Channel.empty()
 }
 
 /* Making channel for the downsampling - if you'd like to change the percentages to which the output bamfile is downsampled
@@ -141,7 +145,7 @@ process multiqc {
 
 
 
-// If the STARsolo output file is given as 
+// If the STARsolo output file is given as input
 
 process skipstarsolo {
 	tag "skip STARsolo"
@@ -243,7 +247,8 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 }
 
 
-bamfile_ch_mix = bamfile_ch.mix(bamfile_ch_skip)
+bamfile_ch_pre = bamfile_ch.mix(bamfile_ch_skip)
+bamfile_ch_pre.into { bamfile_ch_mix; bamfile_ch_mix_forvdj }
 alignment_logs_mix = alignment_logs.mix(alignment_logs_skip)
 called_cells_ch_mix = called_cells_ch.mix(called_cells_ch_skip)
 
@@ -311,6 +316,7 @@ process downsample {
 
 }
 
+
 /* Merge the results of the downsampling into one file of the counts of Reads, UMIs and Genes for each barcode at 
 each downsampling percentage and produce output plots that half calculated the half saturation point for the library
 based on number of genes and number of UMIs */
@@ -336,6 +342,29 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 	"""
 	}
 
+// If these are 5p libs and you want to look at VDJ
+
+process TRUST4 {
+        tag "VDJ with TRUST4"
+
+        input:
+	file "Aligned.sortedByCoord.out.bam" from bamfile_ch_mix_forvdj
+
+        output:
+	file "TRUST_Aligned_barcode_report.tsv" into TRUSTout_ch    	
+
+        when:
+	params.vdj == 'true'
+
+        script:
+	TRUST4_DIR = '/scratch/cmr736/TRUST4/'	
+        """
+	${TRUST4_DIR}run-trust4 -b Aligned.sortedByCoord.out.bam  -f ${TRUST4_DIR}hg38_bcrtcr.fa --ref ${TRUST4_DIR}human_IMGT+C.fa --barcode CB
+
+	"""  
+  	
+} 
+
 
 /* Produce a Summary HTML for the run. This includes a header with the author and the date the file was generated
 Information about the mapping rates to the genome and transcriptome, and stats about the cells based on the STARsolo output.
@@ -356,11 +385,51 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 	val sample from params.sample
 	val pythonscript_path from params.pythonscript_path
 
+
 	output:
 	file "summary.html" into html_outs_ch
 
 	script:
 	"""
 	python ${pythonscript_path}/write_html.py $logs $images [$author] [$sample]
+	
 	"""
+}
+
+process add_VDJ_html {
+
+publishDir "${params.pubdir}", mode: 'copy', overwrite: true
+
+        input:
+	file "summary.html" from html_outs_ch
+	file "TRUST_Aligned_barcode_report.tsv" from TRUSTout_ch
+        val pythonscript_path from params.pythonscript_path
+	val vdj from params.vdj
+
+
+        output:
+        file "summary.html" into html_outs_final
+
+        script:
+        """
+	grep -A1 '<th>Estimated Number of Cells</th>' summary.html | tail -n 1  > cellnum.txt
+	sed  -i 's/<td>//' cellnum.txt
+	sed -i 's/<\\/td>//' cellnum.txt
+	sed -i 's/ //g' cellnum.txt
+	if ($vdj == 'true') && (grep -c -P "\\tB" TRUST_Aligned_barcode_report.tsv > 0); then
+		echo "BCR"
+                python ${pythonscript_path}/write_BCR_html.py TRUST_Aligned_barcode_report.tsv \$(cat cellnum.txt)
+        else
+		echo "NO BCR"
+            	sed -i 's/ADD_BCR_INFO//' summary.html
+	fi
+        if ($vdj == 'true') && (grep -c -P "\\tT" TRUST_Aligned_barcode_report.tsv > 0); then
+                python ${pythonscript_path}/write_TCR_html.py TRUST_Aligned_barcode_report.tsv \$(cat cellnum.txt)
+        elif ($vdj == 'TRUE') && (grep -c -P "\\tT" TRUST_Aligned_barcode_report.tsv !> 0) && (grep -c -P "\\tB" TRUST_Aligned_barcode_report.tsv > 0); then
+                sed -i 's/ADD_TCR_INFO/NO Cells with TCR/BCR found/' summary.html
+        else
+            	sed -i 's/ADD_TCR_INFO//' summary.html
+	fi
+
+        """
 }
