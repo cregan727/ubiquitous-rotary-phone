@@ -2,7 +2,8 @@
 
 /* 
 Nextflow script to perform primary analysis of plate based single cell RNAseq or plate based low input RNAseq.
-In its current form is is specifically designed for FB5P-seq data (https://doi.org/10.3389/fimmu.2020.00216) 
+In its current form is is specifically designed for FB5P-seq data and to report TCR/BCR information at a single cell level. 
+Paper linked here - https://doi.org/10.3389/fimmu.2020.00216
 But if can be easily modified to other plate based scRNAseq methods with modifications to the input parameters.
 Since FB5P-seq is a 5' chemistry based method one specific change is that the params.stranded = 'Reverse' which
 is used to set the strandedness in the STARsolo command may need to be changed to Forward or Unstranded for 3' or 
@@ -73,9 +74,6 @@ else {
 	read_pairs2_ch = Channel.empty()
 	reference_ch = Channel.empty()
 
-}
-if ( params.vdj == 'false' ) {
-        TRUSTout_ch = Channel.empty()
 }
 
 /* Making channel for the downsampling - if you'd like to change the percentages to which the output bamfile is downsampled
@@ -365,6 +363,9 @@ process TRUST4 {
   	
 } 
 
+if ( params.vdj == 'false' ) {
+        TRUSTout_ch = Channel.empty()
+}
 
 /* Produce a Summary HTML for the run. This includes a header with the author and the date the file was generated
 Information about the mapping rates to the genome and transcriptome, and stats about the cells based on the STARsolo output.
