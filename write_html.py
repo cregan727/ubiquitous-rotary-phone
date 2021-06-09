@@ -251,6 +251,9 @@ Template = """
 ADD_BCR_INFO
 ADD_TCR_INFO
  
+<div style="background-color: white; text-align:left; padding: 20px">
+<HR WIDTH="100%" COLOR="white" SIZE="4">
+</div> 
  
  <div style="background-color: Black; text-align:left; padding: 20px">
   <b style="color: White; font-size: 10px"> Plate Based Sequencing Analysis Pipeline - Claire Regan - 2021  </b>
