@@ -389,6 +389,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 	val project from params.project
 	val sample from params.sample
 	val pythonscript_path from params.pythonscript_path
+	val vdj from params.vdj
 
 
 	output:
@@ -396,7 +397,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	script:
 	"""
-	python ${pythonscript_path}/write_html.py $logs $images [$project] [$sample]
+	python ${pythonscript_path}/write_html.py $logs $images [$project] [$sample] [$vdj]
 	
 	"""
 }
