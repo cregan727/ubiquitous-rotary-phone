@@ -176,7 +176,7 @@ plt.axvline(paramaters[1], color='black',
 plt.legend()
 plt.ylabel("Median UMIs per Cell/Well")
 plt.xlabel("Mean Reads per Cell/Well")
-plt.title("Mean UMI's per Barcode")
+plt.title("Median UMI's per Barcode")
 plt.savefig("UMIsat_plot.png")
 plt.close()
 

@@ -422,16 +422,16 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 	sed  -i 's/<td>//' cellnum.txt
 	sed -i 's/<\\/td>//' cellnum.txt
 	sed -i 's/ //g' cellnum.txt
-	if [ $vdj == 'true' ] && [ grep -c -P "\\tB" TRUST_Aligned_barcode_report.tsv > 0 ]; then
+	if ( $vdj == 'true' ) && ( grep -c -P "\\tB" TRUST_Aligned_barcode_report.tsv > 0 ); then
 		echo "BCR"
                 python ${pythonscript_path}/write_BCR_html.py TRUST_Aligned_barcode_report.tsv \$(cat cellnum.txt)
         else
 		echo "NO BCR"
             	sed -i 's/ADD_BCR_INFO//' summary.html
 	fi
-        if [ $vdj == 'true' ] && [ grep -c -P "\\tT" TRUST_Aligned_barcode_report.tsv > 0 ]; then
+        if ( $vdj == 'true' ) && ( grep -c -P "\\tT" TRUST_Aligned_barcode_report.tsv > 0 ); then
                 python ${pythonscript_path}/write_TCR_html.py TRUST_Aligned_barcode_report.tsv \$(cat cellnum.txt)
-        elif [ $vdj == 'TRUE' ] && [ grep -c -P "\\tT" TRUST_Aligned_barcode_report.tsv !> 0 ] && [ grep -c -P "\\tB" TRUST_Aligned_barcode_report.tsv > 0 ]; then
+        elif ( $vdj == 'TRUE' ) && ( grep -c -P "\\tT" TRUST_Aligned_barcode_report.tsv !> 0 ) && ( grep -c -P "\\tB" TRUST_Aligned_barcode_report.tsv > 0 ); then
                 sed -i 's/ADD_TCR_INFO/NO Cells with TCR/BCR found/' summary.html
         else
             	sed -i 's/ADD_TCR_INFO//' summary.html
