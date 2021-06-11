@@ -415,6 +415,9 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
         output:
         file "summary.html" into html_outs_final
+	
+	when:
+	params.vdj == 'true'
 
         script:
 	
