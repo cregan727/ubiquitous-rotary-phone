@@ -45,8 +45,9 @@ Summary_csv = pd.read_csv(summary_csv_path, header=None, index_col=0)
 Summary_csv = Summary_csv.astype(str)
 
 # Write HTML
-Author = system_input[2].replace(",", "")
+Project = system_input[2].replace(",", "")
 Sample = system_input[3].replace(",", "")
+vdj = system_input[4].replace(",", "")
 
 # Get date
 x = date.today()
@@ -207,7 +208,7 @@ Template = """
 <body>
 <div style="background-color: Black; text-align:left; padding: 20px">
     <b style="color: White; font-size: 50px"> Plate Based Sequencing Results  </b>
-    <p style="color: White;">AUTHOR_NAME -  DATE_M_Y - SAMPLE_NAME</p>
+    <p style="color: White;">PROJECT_NAME -  DATE_M_Y - SAMPLE_NAME</p>
     <HR WIDTH="100%" COLOR="#17BECF" SIZE="4">
 </div>
 
@@ -289,7 +290,7 @@ elif (multiqc_run == True):
 
 # File in the HTML
 
-Template = Template.replace("AUTHOR_NAME", Author)
+Template = Template.replace("PROJECT_NAME", Project)
 Template = Template.replace("DATE_M_Y", DATE_M_Y)
 Template = Template.replace("SAMPLE_NAME", Sample)
 Template = Template.replace(
@@ -309,6 +310,10 @@ Template = Template.replace("UMISSATPLT", str_files[2])
 Template = Template.replace("GENESATPLT", str_files[1])
 Template = Template.replace("PLATELAYCELL", str_files[3])
 Template = Template.replace("PLATELAYUMI", str_files[4])
+
+if vdj != 'true':
+    Template = Template.replace("ADD_BCR_INFO", "")
+    Template = Template.replace("ADD_TCR_INFO", "")
 
 # write to a file
 f = open("summary.html", "a")
