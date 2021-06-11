@@ -21,7 +21,7 @@
 <body>
 <div style="background-color: Black; text-align:left; padding: 20px">
     <b style="color: White; font-size: 50px"> Plate Based Sequencing Results  </b>
-    <p style="color: White;">FB5P-seq -  June 08, 2021 - SRR10099491</p>
+    <p style="color: White;">FB5P-seq -  June 10, 2021 - SRR10099491</p>
     <HR WIDTH="100%" COLOR="#17BECF" SIZE="4">
 </div>
 
@@ -160,95 +160,11 @@
 
  
 
-<div style="width: 100%; height: 700px; position: relative; clear:both;overflow: hidden; white-space:nowrap; padding-top: 10px;clear:both;"> 
-<div style="width: 110%, position: absolute; clear:both;"> 
-      <p style="text-align: left; color: #094D92; font-size: 30px"> BCR STATS: </p>
-      </div>
-<div id="vis_fq_b" style="width: 50%; height: 50%; float: left; position: absolute; clear:both; overflow: hidden; white-space:nowrap"></div>
-  <script>
-    (function(vegaEmbed) {
-      var spec = {"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-3c426c1dc57a56040d297232263a44d2"}, "mark": {"type": "bar", "color": "reds"}, "encoding": {"color": {"type": "nominal", "field": "chain", "scale": {"scheme": "viridis"}}, "x": {"type": "quantitative", "bin": {"step": 0.9999}, "field": "freq", "title": "Number of Cells the CDR3 Amino Acid Sequence is Observed in"}, "y": {"type": "quantitative", "aggregate": "count", "title": "Number of CDR3 AA sequences"}}, "height": 200, "title": "Frequency Histogram", "width": "container", "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json", "datasets": {"data-3c426c1dc57a56040d297232263a44d2": [{"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 2, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 2, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 3, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 2, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 2, "chain": "light"}, {"freq": 2, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 2, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 2, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 2, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "light"}, {"freq": 1, "chain": "heavy"}, {"freq": 1, "chain": "heavy"}, {"freq": 1, "chain": "heavy"}, {"freq": 1, "chain": "heavy"}, {"freq": 1, "chain": "heavy"}, {"freq": 1, "chain": "heavy"}, {"freq": 1, "chain": "heavy"}, {"freq": 1, "chain": "heavy"}, {"freq": 1, "chain": "heavy"}, {"freq": 1, "chain": "heavy"}]}};
-      var embedOpt = {"mode": "vega-lite"};
-
-      function showError(el, error){
-          el.innerHTML = ('<div class="error" style="color:red;">'
-                          + '<p>JavaScript Error: ' + error.message + '</p>'
-                          + "<p>This usually means there's a typo in your chart specification. "
-                          + "See the javascript console for the full traceback.</p>"
-                          + '</div>');
-          throw error;
-      }
-      const el = document.getElementById('vis_fq_b');
-      vegaEmbed("#vis_fq_b", spec, embedOpt)
-        .catch(error => showError(el, error));
-    })(vegaEmbed);
-
-  </script>
-
-    <div style="width: 50%; float: right; padding-top: 50px;"> 
-      <table class="dataframe">
-  <thead>
-    <tr style="text-align: left;">
-      <th></th>
-      <th>Number of Cells</th>
-      <th>Percent of Cells</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>No BCR</th>
-      <td>5</td>
-      <td>6.76%</td>
-    </tr>
-    <tr>
-      <th>Light Chain Only</th>
-      <td>59</td>
-      <td>79.73%</td>
-    </tr>
-    <tr>
-      <th>Heavy Chain only</th>
-      <td>1</td>
-      <td>1.35%</td>
-    </tr>
-    <tr>
-      <th>Paired Chains</th>
-      <td>9</td>
-      <td>12.16%</td>
-    </tr>
-    <tr>
-      <th>Total</th>
-      <td>74</td>
-      <td>100.0%</td>
-    </tr>
-  </tbody>
-</table>
-      </div>
-<div id="vis_dp_b" style="width: 100%; position: absolute; clear:both; overflow: hidden; white-space:nowrap; padding-top: 300px; padding-bottom: 20px"></div>
-  <script>
-    (function(vegaEmbed) {
-      var spec = {"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-d9ddb786d2eaf63ed2acedc9b065b969"}, "mark": "circle", "encoding": {"color": {"type": "nominal", "field": "Light Chain", "scale": {"scheme": "viridis"}}, "size": {"type": "quantitative", "field": "value"}, "tooltip": [{"type": "quantitative", "field": "value"}, {"type": "nominal", "field": "Light Chain"}], "x": {"type": "nominal", "field": "H_C_gene", "scale": {"domain": ["IGHA", "IGHA", "IGHA", "IGHD", "IGHD", "IGHD", "IGHE", "IGHE", "IGHE", "IGHG1", "IGHG1", "IGHG1", "IGHG2", "IGHG2", "IGHG2", "IGHG3", "IGHG3", "IGHG3", "IGHG4", "IGHG4", "IGHG4", "IGHM", "IGHM", "IGHM"]}, "title": "Heavy Chain"}, "y": {"type": "nominal", "field": "L_C_gene", "title": "Light Chain"}}, "height": 200, "selection": {"selector001": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "title": "Heavy and Light Chain usage for cells with Paired Data", "width": "container", "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json", "datasets": {"data-d9ddb786d2eaf63ed2acedc9b065b969": [{"L_C_gene": "IGKC", "value": 1.0, "H_C_gene": "IGHG1", "Light Chain": "Kappa"}, {"L_C_gene": "IGKC", "value": 1.0, "H_C_gene": "IGHG2", "Light Chain": "Kappa"}, {"L_C_gene": "IGKC", "value": 1.0, "H_C_gene": "IGHM", "Light Chain": "Kappa"}, {"L_C_gene": "IGKC", "value": null, "H_C_gene": "IGHG3", "Light Chain": "Kappa"}, {"L_C_gene": "IGKC", "value": null, "H_C_gene": "IGHG4", "Light Chain": "Kappa"}, {"L_C_gene": "IGKC", "value": null, "H_C_gene": "IGHA", "Light Chain": "Kappa"}, {"L_C_gene": "IGKC", "value": null, "H_C_gene": "IGHD", "Light Chain": "Kappa"}, {"L_C_gene": "IGKC", "value": null, "H_C_gene": "IGHE", "Light Chain": "Kappa"}, {"L_C_gene": "IGLC2", "value": 2.0, "H_C_gene": "IGHG1", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC2", "value": null, "H_C_gene": "IGHG2", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC2", "value": 1.0, "H_C_gene": "IGHM", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC2", "value": null, "H_C_gene": "IGHG3", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC2", "value": null, "H_C_gene": "IGHG4", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC2", "value": null, "H_C_gene": "IGHA", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC2", "value": null, "H_C_gene": "IGHD", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC2", "value": null, "H_C_gene": "IGHE", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC3", "value": null, "H_C_gene": "IGHG1", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC3", "value": 1.0, "H_C_gene": "IGHG2", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC3", "value": 2.0, "H_C_gene": "IGHM", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC3", "value": null, "H_C_gene": "IGHG3", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC3", "value": null, "H_C_gene": "IGHG4", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC3", "value": null, "H_C_gene": "IGHA", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC3", "value": null, "H_C_gene": "IGHD", "Light Chain": "Lambda"}, {"L_C_gene": "IGLC3", "value": null, "H_C_gene": "IGHE", "Light Chain": "Lambda"}]}};
-      var embedOpt = {"mode": "vega-lite"};
-
-      function showError(el, error){
-          el.innerHTML = ('<div class="error" style="color:red;">'
-                          + '<p>JavaScript Error: ' + error.message + '</p>'
-                          + "<p>This usually means there's a typo in your chart specification. "
-                          + "See the javascript console for the full traceback.</p>"
-                          + '</div>');
-          throw error;
-      }
-      const el = document.getElementById('vis_dp_b');
-      vegaEmbed("#vis_dp_b", spec, embedOpt)
-        .catch(error => showError(el, error));
-    })(vegaEmbed);
-
-  </script>
-
-
-</div>
-
 
  
+<div style="background-color: white; text-align:left; padding: 20px">
+<HR WIDTH="100%" COLOR="white" SIZE="4">
+</div> 
  
  <div style="background-color: Black; text-align:left; padding: 20px">
   <b style="color: White; font-size: 10px"> Plate Based Sequencing Analysis Pipeline - Claire Regan - 2021  </b>
