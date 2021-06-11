@@ -18,18 +18,20 @@ Params:
 
 params.sample = sample name
 params.R1_barcode = 'false'
+params.vdj = 'false'
 params.fromSTARouts = 'false'
 params.pathtoSTARouts = path to a starsolo outs folder
 params.reads = path to the fastqs
 params.bclist = path to barcodes file for your method
 params.reference = path to STAR reference genome
 params.pubdir = directory to which the outputs will go
-params.author = your name/ project name/ anything you want to appear alongside the date in the header of the html file - note that commas will be removed
+params.project = project name/ anything you want to appear alongside the date in the header of the html file - note that commas will be removed
 params.stranded = 'Forward' (most 3' methods), 'Reverse' (FB5P-seq), 'Unstranded' (smartseq methods)
 params.barcode_length = barcode length 
 params.UMI_length = umi length
 params.pythonscript_path = path to the python scripts
 params.picard_path = path to the picard.jar. In some cases this is just picard.jar
+params.trust4_dir = path to TRUST4 directory
 
 CLI tools:
 module load nextflow/20.11.0-edge
@@ -58,6 +60,7 @@ altair
 
 params.R1_barcode = 'true'
 params.vdj = 'false'
+params.trust4_dir = 'none'
 
 if ( params.fromSTARouts == 'false' ) {
 	pathtoSTARouts_ch = Channel.empty()
@@ -347,6 +350,7 @@ process TRUST4 {
 
         input:
 	file "Aligned.sortedByCoord.out.bam" from bamfile_ch_mix_forvdj
+	val TRUST4_DIR from params.trust4_dir
 
         output:
 	file "TRUST_Aligned_barcode_report.tsv" into TRUSTout_ch    	
@@ -355,7 +359,7 @@ process TRUST4 {
 	params.vdj == 'true'
 
         script:
-	TRUST4_DIR = '/scratch/cmr736/TRUST4/'	
+	
         """
 	${TRUST4_DIR}run-trust4 -b Aligned.sortedByCoord.out.bam  -f ${TRUST4_DIR}hg38_bcrtcr.fa --ref ${TRUST4_DIR}human_IMGT+C.fa --barcode CB
 
@@ -367,7 +371,7 @@ if ( params.vdj == 'false' ) {
         TRUSTout_ch = Channel.empty()
 }
 
-/* Produce a Summary HTML for the run. This includes a header with the author and the date the file was generated
+/* Produce a Summary HTML for the run. This includes a header with the project and the date the file was generated
 Information about the mapping rates to the genome and transcriptome, and stats about the cells based on the STARsolo output.
 It also includes a barcode rank plot, and the two saturation plots generated earlier. */
 
@@ -382,7 +386,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 	input: 
 	val images from plots_ch_com.collect()
 	val logs from alignment_logs_mix.collect()
-	val author from params.author
+	val project from params.project
 	val sample from params.sample
 	val pythonscript_path from params.pythonscript_path
 
@@ -392,7 +396,7 @@ publishDir "${params.pubdir}", mode: 'copy', overwrite: true
 
 	script:
 	"""
-	python ${pythonscript_path}/write_html.py $logs $images [$author] [$sample]
+	python ${pythonscript_path}/write_html.py $logs $images [$project] [$sample]
 	
 	"""
 }
