@@ -9,6 +9,7 @@ Project Goals:
 * Output to fill in a template HTML
 * Alternatively, calculate library complexity information and generate HTML file from data previously analyzed with STARsolo - DataT1_fromSTARouts is an example of the same dataset as DataT1, but run on a STARsolo output folder instead of fastqs
 * TODO: VDJ - change how the vdj plots get added to the html file
+* Fix it pipeline to trim reads if the UMI+BC don't add up to the length of the barcode read (currently requires cutadapt to be run to trim reads)
 
 Data from https://www.frontiersin.org/articles/10.3389/fimmu.2020.00216/full#h7
 
