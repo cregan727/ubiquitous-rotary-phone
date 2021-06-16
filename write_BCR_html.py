@@ -50,7 +50,7 @@ paired = len(Bcells[(Bcells['chain1'] != "*") & (Bcells['chain2'] != "*")])
 BCR_stats = pd.DataFrame([No_BCR, L_only, H_only, paired, CELLNUM],
                          index=['No BCR',
                                 "Light Chain Only",
-                                "Heavy Chain only",
+                                "Heavy Chain Only",
                                 "Paired Chains",
                                 "Total"],
                          columns=['Number of Cells'])
