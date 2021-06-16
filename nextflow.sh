@@ -17,4 +17,4 @@ module load samtools/intel/1.12
 module load picard/2.23.8
 module load multiqc/1.9
 
-nextflow run Nextflow_script_main.nf -c NFinput.config  -resume
+nextflow run Nextflow_script_main.nf -c NFinput.config # -resume
