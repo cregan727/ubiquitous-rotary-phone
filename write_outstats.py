@@ -1,4 +1,4 @@
-# Python script to combine the outstats from the downsampling
+# Python script to combine the output from the downsampling and calculate stats from it
 
 import pandas as pd
 import numpy as np
@@ -8,6 +8,9 @@ import operator
 import scipy.optimize
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+
+# Take inputs from Nextflow
 
 system_input = str(
     sys.argv[1:]).replace(
@@ -32,9 +35,22 @@ inputbcs.columns = ['Barcode']
 called_cells = pd.read_csv(called_cells, header=None)
 called_cells.columns = ['Barcode']
 
-
+# Define Functions:
 
 def outsatstats_all(percent, Reads_per_CB, counts, inputbcs):
+    """Take input from downsampled bam stats and returns df of genes, UMIs and reads for each bc.
+
+    Args:
+       percent (int):  The percent the bamfile was downsampled.
+       Reads_per_CB (file path):  Space delimited file of the barcodes and # of reads.
+       counts (file path): tab delimited count matrix made from downsampled bam
+       inputbcs (file path): File containing the list of barcodes used
+
+    Returns:
+        reads (df): A pandas df with columns reads, genes, and UMIs for each bc
+
+    """
+    
     UMIs = pd.read_csv(
             counts,
             delimiter='\t',
@@ -62,6 +78,8 @@ def outsatstats_all(percent, Reads_per_CB, counts, inputbcs):
     reads['Genes'] = np.count_nonzero(UMIs, axis=0)
     reads['UMI'] = UMIs.sum(axis=0)
     return(reads)
+
+
 
 df = pd.DataFrame(index=inputbcs['Barcode'])
 
