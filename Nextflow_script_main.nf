@@ -95,17 +95,6 @@ Channel
 
 
 
-
-/*
-process cutadapt
-
-first check if the UMI+BC = the length of one of the fastqs
-can that be done without going into the shell script?
-
-
-*/
-
-
 // Run FASTQC and send output to specified pubdir
 
 process fastqc {
