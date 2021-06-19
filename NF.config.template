@@ -4,23 +4,26 @@
     ----------------------------------
  
  Includes the defaults for running B cell sample SRR10099491 of FB5P-seq
- This inludes a UMI and Barcode length of 8 and stranded - Reverse
+ This inludes a UMI length of 5 and Barcode length of 8 and stranded - Reverse
  
  */
  
  params {
     sample = 'SRR10099491'
     fromSTARouts = 'false'
-    pathtoSTARouts = "/path/to/STAR/outputfolder/"
-    reads = "/path/to/ubiquitous-rotary-phone/fastqs/SRR10099491_{1,2}.fastq.gz"
+    pathtoSTARouts = "/path/to/STAR/outputfolder/"  // optional - needed if STARouts is true
+    reads = "/path/to/ubiquitous-rotary-phone/fastqs/SRR10099491_{1,2}.fastq.gz" // optional - needed if STARouts is false
+    trust4_dir = '/path/to/TRUST4/'
+    vdj = 'false' // true if you'd like to run trust4 on the sample
+    R1_barcode = 'false' // true if read 1 contains the cell barcode
     bclist = '/path/to/ubiquitous-rotary-phone/barcode_seq_2ndSet.txt'
     reference = '/path/to/references/star_human/'
     pubdir = './DataB1/'
-    author = 'Your Name'
+    project = 'Project Name'
     stranded = 'Reverse'
     barcode_length = 8 
-    UMI_length = 8
-    pythonscript_path = '/path/to/python/script/location'
+    UMI_length = 5
+    pythonscript_path = '/path/to/ubiquitous-rotary-phone/python_scripts'
     picard_path = '/path/to/picard/2.23.8/picard.jar'
  
  }
