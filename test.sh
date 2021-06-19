@@ -8,4 +8,6 @@
 #SBATCH --job-name=nextflowss
 
 module load cutadapt/3.1
-cutadapt -u -3 -o output.fastq.gz  /scratch/cmr736/ubiquitous-rotary-phone/fastqs/SRR10099498_2.fastq.gz
+# run cutadapt and then replace the original fastq with the trimmed one
+cutadapt -u -3 -o output.fastq.gz  /path/to/ubiquitous-rotary-phone/fastqs/SRR10099498_2.fastq.gz
+mv output.fastq.gz /path/to/ubiquitous-rotary-phone/fastqs/SRR10099498_2.fastq.gz
