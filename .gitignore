@@ -7,3 +7,4 @@ work/
 Nextflow_script.nf
 brbseq.wlist.txt
 NFinput.config
+test/*
