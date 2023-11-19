@@ -1,4 +1,7 @@
 # ubiquitous-rotary-phone
+
+As of the switch from DSL1 -> DSL2 this pipeline will no longer work with newer versions of Nextflow
+
 ## Analysis of FB5P-seq data using Nextflow:
 ### Project Goals:
 * Analyze FB5P-seq data from T cells SRR10099498 (https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP221379) 
